@@ -21,7 +21,4 @@ task clean(type: Delete) {
 
 dependencies {
 }
-/*android {
-    compileSdkVersion 21
-    buildToolsVersion '24.0.1'
-}*/
+
