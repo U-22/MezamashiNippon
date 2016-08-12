@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="アラーム"
+        android:id="@+id/textView2"
+        android:layout_weight="0.07"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
+        android:background="@color/accent_material_light"
+        android:textColor="#ffffff" />
+
+    <Switch
+        android:layout_width="257dp"
+        android:layout_height="wrap_content"
+        android:text="アラーム"
+        android:id="@+id/switch_alarm"
+        android:layout_gravity="center_horizontal"
+        android:checked="false"
+        android:layout_weight="0.11"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ここに時間が表示されます"
+        android:id="@+id/timeDialog"
+        android:gravity="center|center_vertical|center_horizontal"
+        android:textSize="20dp"
+        android:textColor="#020202"
+        android:textStyle="italic"
+        android:layout_weight="0.03" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="時刻設定"
+        android:id="@+id/pickTime"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.04" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="表示ニュース数"
+        android:id="@+id/textView"
+        android:layout_weight="0.06"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
+        android:textColor="#ffffff"
+        android:background="@color/accent_material_light" />
+
+    <Spinner
+        android:layout_width="157dp"
+        android:layout_height="51dp"
+        android:id="@+id/newsNumber"
+        android:layout_gravity="center_horizontal"
+        android:entries="@array/list"
+        android:spinnerMode="dialog" />
+
+</LinearLayout>

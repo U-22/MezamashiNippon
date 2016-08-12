@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="アラーム設定">
+
+        <SwitchPreference
+            android:key="switch_preference"
+            android:title="アラーム" />
+        <Preference
+            android:key="time_preference"
+            android:title="アラーム時刻設定"
+            android:selectable="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="ニュース設定">
+
+        <ListPreference
+            android:key="list_preference"
+            android:title="ニュース数"
+            android:summary="設定にはここをタップしてください"
+            android:entries="@array/entries_list_preference"
+            android:entryValues="@array/entryvalues_list_preference"
+            android:dialogTitle="タイトル" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
