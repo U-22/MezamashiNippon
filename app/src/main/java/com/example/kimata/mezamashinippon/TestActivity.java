@@ -35,7 +35,12 @@ public class TestActivity extends AppCompatActivity {
                 uihandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        result.setText(myhtml.getStartElementString() + myhtml.getEndELementString());
+                        if(myhtml.generateMainContents())
+                        {
+                            result.setText(myhtml.getMainContents());
+                        }else{
+                            result.setText("false");
+                        }
                     }
                 });
             }
