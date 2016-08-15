@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +16,9 @@
         android:gravity="center_vertical"
         android:textSize="20dp"
         android:background="@color/accent_material_light"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
     <Switch
         android:layout_width="257dp"
@@ -25,7 +28,10 @@
         android:layout_gravity="center_horizontal"
         android:checked="false"
         android:layout_weight="0.11"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="match_parent"
@@ -36,7 +42,56 @@
         android:textSize="20dp"
         android:textColor="#020202"
         android:textStyle="italic"
-        android:layout_weight="0.03" />
+        android:layout_weight="0.03"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/pickTime" />
+
+    <Spinner
+        android:layout_width="157dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/newsNumber"
+        android:layout_gravity="center_horizontal"
+        android:entries="@array/list"
+        android:spinnerMode="dialog"
+        android:layout_weight="0.42"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="参照ニュースサイト"
+        android:id="@+id/textView3"
+        android:layout_weight="0.07"
+        android:gravity="center_vertical"
+        android:textSize="20dp"
+        android:textColor="#ffffff"
+        android:background="@color/accent_material_light"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/newsNumber"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Webから探す"
+        android:id="@+id/web_botton"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.07"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/save_setting"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_check_circle_white_24dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.02"
+        app:backgroundTint="#0ca5ba"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -44,25 +99,28 @@
         android:text="時刻設定"
         android:id="@+id/pickTime"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.04" />
+        android:layout_weight="0.04"
+        android:layout_above="@+id/textView4"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="表示ニュース数"
-        android:id="@+id/textView"
+        android:id="@+id/textView4"
         android:layout_weight="0.06"
         android:gravity="center_vertical"
         android:textSize="20dp"
         android:textColor="#ffffff"
-        android:background="@color/accent_material_light" />
+        android:background="@color/accent_material_light"
+        android:layout_above="@+id/newsNumber"
+        android:layout_centerHorizontal="true" />
 
-    <Spinner
-        android:layout_width="157dp"
-        android:layout_height="51dp"
-        android:id="@+id/newsNumber"
-        android:layout_gravity="center_horizontal"
-        android:entries="@array/list"
-        android:spinnerMode="dialog" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/url_list"
+        android:layout_below="@+id/web_botton"
+        android:layout_alignParentEnd="true" />
 
-</LinearLayout>
+</RelativeLayout>
