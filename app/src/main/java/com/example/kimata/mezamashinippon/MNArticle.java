@@ -17,6 +17,7 @@ public class MNArticle {
     {
         m_mainContents = null;
         m_mainTitle = null;
+        m_imageList = new ArrayList<Bitmap>();
     }
 
     //setter
@@ -34,6 +35,11 @@ public class MNArticle {
         {
             m_mainTitle = mainTitle;
         }
+    }
+
+    void setImageList(ArrayList<Bitmap> imageList)
+    {
+        m_imageList.addAll(imageList);
     }
 
     //getter

@@ -4,6 +4,8 @@ package com.example.kimata.mezamashinippon;
  * Created by umino on 16/08/11.
  */
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
@@ -12,6 +14,9 @@ import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MNHtml {
@@ -36,6 +41,7 @@ public class MNHtml {
         {
             e.printStackTrace();
         }
+        m_imageList = new ArrayList<Bitmap>();
     }
 
     //setter
@@ -135,6 +141,50 @@ public class MNHtml {
         }else{
             return false;
         }
+    }
+
+    //記事内の画像を取得する関数
+    //記事に関係の内画像までとってきてしまうため要改良
+    void getPicture()
+    {
+        Elements imageElement = m_targetDoc.getElementsByTag("img");
+        Elements linkElement = m_targetDoc.getElementsByTag("a");
+        //全てのリンクの取得
+        ArrayList<String> linkList = new ArrayList<String>();
+        for (final Element element : linkElement)
+        {
+            linkList.add(element.attr("href"));
+        }
+        for(final Element element : imageElement)
+        {
+            try {
+                URL url = new URL(element.attr("src"));
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                Log.d("url", "getPicture: " + element.attr("src"));
+                connection.connect();
+                m_imageList.add(BitmapFactory.decodeStream(connection.getInputStream()));
+                connection.disconnect();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    //MNHtmlからMNArticleの生成
+    //生成できる条件が満たされていない場合nullが変える。
+    MNArticle generateArticle()
+    {
+        MNArticle article = null;
+        m_mainTitle = m_targetDoc.title();
+        if(m_mainContents != null)
+        {
+            article = new MNArticle();
+            article.setMainContents(m_mainContents);
+            article.setMainTitle(m_mainTitle);
+        }
+        return article;
     }
 
 

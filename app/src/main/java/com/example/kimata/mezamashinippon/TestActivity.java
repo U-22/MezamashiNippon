@@ -43,6 +43,7 @@ public class TestActivity extends AppCompatActivity {
                         }
                     }
                 });
+                myhtml.getPicture();
             }
         })).start();
 
