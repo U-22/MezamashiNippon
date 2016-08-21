@@ -16,6 +16,7 @@ public class MNSite {
     //m_urlはニュースサイトのトップページのURL
     //サイトの登録は、トップページのURL入力→パス生成用に任意の記事を表示して、始点と終点を選択の手順で行う
     private String m_url;
+    private String m_rssUr;
     private String m_startIdentifier;
     private String m_endIdentifier;
     private ArrayList<String> m_startPath;
@@ -25,6 +26,7 @@ public class MNSite {
     MNSite(String url)
     {
         m_url = url;
+        m_rssUr = new String();
         m_startIdentifier = new String();
         m_endIdentifier = new String();
         m_startPath = new ArrayList<String>();
@@ -56,6 +58,11 @@ public class MNSite {
     {
         return m_endPath;
     }
+    String getRssUrl()
+    {
+        return m_rssUr;
+    }
+
 
 
     //サイトごとに固有のパスを設定
@@ -104,17 +111,33 @@ public class MNSite {
         }
     }
 
+    //RSSフィードのURLを取得
+    boolean findRssUrl()
+    {
+        try{
+            Document targetDoc = Jsoup.connect(m_url).get();
+            Elements candinateElements = targetDoc.getElementsByTag("link");
+            for(Element element : candinateElements)
+            {
+                String type = element.attr("type");
+                if(type.equals("application/rss+xml"))
+                {
+                    m_rssUr = new String(element.attr("href"));
+                    return true;
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     //新しく追加された記事を追加
     void addNewArticle()
     {
-
+        
     }
 
-    //サイトの情報をXMLに出力
-    void exportAsXML()
-    {
-
-    }
 
     //MNHtmlの生成
     boolean generateHtml()

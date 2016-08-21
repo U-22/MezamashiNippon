@@ -26,15 +26,22 @@ public class TestActivity extends AppCompatActivity {
         uihandler = new Handler();
         setSupportActionBar(toolbar);
 
-        targetSite = new MNSite();
+        targetSite = new MNSite("http://gigazine.net/");
         targetSite.setStartIdentifier("映画化もされた冒険小説");
         targetSite.setEndIdentifier("めて公開しています。");
         //targetSite.generateStartPath("http://www.sankei.com/rio2016/news/160819/rio1608190013-n1.html");
         (new Thread(new Runnable() {
             @Override
             public void run() {
-                targetSite.generateStartPath("http://gigazine.net/news/20160810-project-sauron/");
-                targetSite.generateEndPath("http://gigazine.net/news/20160810-project-sauron/");
+                targetSite.findRssUrl();
+                uihandler.post(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       result.setText(targetSite.getRssUrl());
+                                   }
+                               }
+
+                );
             }
         }
 
