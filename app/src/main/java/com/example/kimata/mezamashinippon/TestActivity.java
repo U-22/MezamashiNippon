@@ -9,10 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class TestActivity extends AppCompatActivity {
     private Handler uihandler;
     private TextView result;
     private MNHtml myhtml;
+    private MNSite targetSite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,30 +26,19 @@ public class TestActivity extends AppCompatActivity {
         uihandler = new Handler();
         setSupportActionBar(toolbar);
 
+        targetSite = new MNSite();
+        targetSite.setStartIdentifier("映画化もされた冒険小説");
+        targetSite.setEndIdentifier("めて公開しています。");
+        //targetSite.generateStartPath("http://www.sankei.com/rio2016/news/160819/rio1608190013-n1.html");
         (new Thread(new Runnable() {
             @Override
             public void run() {
-                myhtml = new MNHtml("http://gigazine.net/news/20160810-project-sauron/");
-                myhtml.setStartIdentifier("映画化もされた冒険小説「指輪物語」");
-                myhtml.setEndIdentifier("なお、シマンテックとカスペルスキーは、それぞれスパイウェア・Remsecに関する報告書をまとめて公開しています。");
-                myhtml.findStartElement();
-                myhtml.findEndElement();
-                //UIスレッドに渡す
-                uihandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(myhtml.generateMainContents())
-                        {
-                            result.setText(myhtml.getMainContents());
-                        }else{
-                            result.setText("false");
-                        }
-                    }
-                });
-                myhtml.getPicture();
+                targetSite.generateStartPath("http://gigazine.net/news/20160810-project-sauron/");
+                targetSite.generateEndPath("http://gigazine.net/news/20160810-project-sauron/");
             }
-        })).start();
+        }
 
+        )).start();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

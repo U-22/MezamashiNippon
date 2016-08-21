@@ -29,6 +29,8 @@ public class MNHtml {
     private String m_mainContents;
     private String m_mainTitle;
     private ArrayList<Bitmap> m_imageList;
+    private ArrayList<String> m_startPath;
+    private ArrayList<String> m_endPath;
 
     //コンストラクタ
     MNHtml(String url)
@@ -42,6 +44,16 @@ public class MNHtml {
             e.printStackTrace();
         }
         m_imageList = new ArrayList<Bitmap>();
+        //m_startPath = new ArrayList<String>();
+        //m_endPath = new ArrayList<String>();
+        //m_startDepth = 0;
+        //m_endDepth = 0;
+        m_startIdentifier = new String();
+        m_endIdentifier = new String();
+        m_mainContents = new String();
+        m_mainTitle = new String();
+        m_startElement = null;
+        m_endElement = null;
     }
 
     //setter
@@ -142,6 +154,45 @@ public class MNHtml {
             return false;
         }
     }
+
+    //startElementまでの深さを保存
+    void saveStartDepth()
+    {
+        if(m_startElement != null)
+        {
+            Element temp = m_startElement;
+            while(true) {
+                temp = temp.parent();
+                if(temp == null)
+                {
+                    break;
+                }
+                Log.d("parent", "saveStartDepth: " + temp.tagName());
+            }
+        }
+    }
+
+    //endElementからDOM構造の終端までの深さを保存
+    /*void saveEndDepth()
+    {
+        boolean startFlag = false;
+        if(m_endElement != null)
+        {
+            Elements elements = m_targetDoc.getAllElements();
+            for(Element element : elements)
+            {
+                if(element.equals(m_endElement))
+                {
+                    startFlag = true;
+                }
+                if(startFlag)
+                {
+                    m_endDepth++;
+                }
+            }
+        }
+        Log.d("edepth", "saveEndDepth: " + m_endDepth);
+    }*/
 
     //記事内の画像を取得する関数
     //記事に関係の内画像までとってきてしまうため要改良
