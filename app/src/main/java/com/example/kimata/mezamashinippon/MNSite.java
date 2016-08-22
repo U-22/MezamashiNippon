@@ -1,5 +1,7 @@
 package com.example.kimata.mezamashinippon;
 
+import android.util.Log;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,6 +10,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * Created by umino on 16/08/19.
@@ -133,13 +136,29 @@ public class MNSite {
     }
 
     //新しく追加された記事を追加
-    void addNewArticle()
+    void addNewArticle(Date baseDate)
     {
-        
+        Log.d("now", new Date().toString());
+        try{
+            Document targetDoc = Jsoup.connect(m_rssUr).get();
+            Elements items = targetDoc.select("item");
+            for (Element element : items){
+                Date date = MNUtil.convertRssDate("dc|date",element.select("dc|date").text());
+                Log.d("date", date.toString());
+                if(date.after(baseDate))
+                {
+                    m_newArticleList.add(element.select("link").text());
+                }
+            }
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
 
     //MNHtmlの生成
+    //明日はここから
     boolean generateHtml()
     {
         return true;

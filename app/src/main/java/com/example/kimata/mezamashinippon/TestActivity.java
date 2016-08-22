@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class TestActivity extends AppCompatActivity {
     private Handler uihandler;
@@ -34,6 +36,9 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void run() {
                 targetSite.findRssUrl();
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(2016, 7, 21);
+                targetSite.addNewArticle(calendar.getTime());
                 uihandler.post(new Runnable() {
                                    @Override
                                    public void run() {
