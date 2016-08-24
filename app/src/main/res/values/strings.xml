@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MezamashiNippon</string>
-    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_test">SettingActivity</string>
 
     //ニュース数選択ダイアログ用
     <string-array name="list">

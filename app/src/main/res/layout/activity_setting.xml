@@ -1,126 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:weightSum="1">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="アラーム"
-        android:id="@+id/textView2"
-        android:layout_weight="0.07"
-        android:gravity="center_vertical"
-        android:textSize="20dp"
-        android:background="@color/accent_material_light"
-        android:textColor="#ffffff"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
 
-    <Switch
-        android:layout_width="257dp"
-        android:layout_height="wrap_content"
-        android:text="アラーム"
-        android:id="@+id/switch_alarm"
-        android:layout_gravity="center_horizontal"
-        android:checked="false"
-        android:layout_weight="0.11"
-        android:textSize="20dp"
-        android:layout_marginTop="35dp"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ここに時間が表示されます"
-        android:id="@+id/timeDialog"
-        android:gravity="center|center_vertical|center_horizontal"
-        android:textSize="20dp"
-        android:textColor="#020202"
-        android:textStyle="italic"
-        android:layout_weight="0.03"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/pickTime" />
-
-    <Spinner
-        android:layout_width="157dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/newsNumber"
-        android:layout_gravity="center_horizontal"
-        android:entries="@array/list"
-        android:spinnerMode="dialog"
-        android:layout_weight="0.42"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="参照ニュースサイト"
-        android:id="@+id/textView3"
-        android:layout_weight="0.07"
-        android:gravity="center_vertical"
-        android:textSize="20dp"
-        android:textColor="#ffffff"
-        android:background="@color/accent_material_light"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="36dp"
-        android:layout_below="@+id/newsNumber"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Webから探す"
-        android:id="@+id/web_botton"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.07"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/save_setting"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_check_circle_white_24dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.02"
-        app:backgroundTint="#0ca5ba"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="時刻設定"
-        android:id="@+id/pickTime"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.04"
-        android:layout_above="@+id/textView4"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="表示ニュース数"
-        android:id="@+id/textView4"
-        android:layout_weight="0.06"
-        android:gravity="center_vertical"
-        android:textSize="20dp"
-        android:textColor="#ffffff"
-        android:background="@color/accent_material_light"
-        android:layout_above="@+id/newsNumber"
-        android:layout_centerHorizontal="true" />
-
-    <ListView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/url_list"
-        android:layout_below="@+id/web_botton"
-        android:layout_alignParentEnd="true" />
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearlayout01">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.07"
+                android:background="@color/accent_material_light"
+                android:gravity="center_vertical"
+                android:text="アラーム"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <ToggleButton
+                android:layout_width="141dp"
+                android:layout_height="wrap_content"
+                android:text="New ToggleButton"
+                android:id="@+id/toggleButton"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp" />
+
+            <TextView
+                android:id="@+id/timeDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.03"
+                android:gravity="center|center_vertical|center_horizontal"
+                android:text="時間が表示されます"
+                android:textColor="#020202"
+                android:textSize="35dp"
+                android:textStyle="italic"
+                android:layout_marginTop="10dp" />
+
+            <Button
+                android:id="@+id/pickTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.04"
+                android:text="時刻設定" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.06"
+                android:background="@color/accent_material_light"
+                android:gravity="center_vertical"
+                android:text="表示ニュース数"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:layout_marginTop="15dp" />
+
+            <Spinner
+                android:id="@+id/newsNumber"
+                android:layout_width="157dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.42"
+                android:entries="@array/list" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_weight="0.07"
+                android:background="@color/accent_material_light"
+                android:gravity="center_vertical"
+                android:text="参照ニュースサイト"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <Button
+                android:id="@+id/web_botton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.07"
+                android:text="Webから探す" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="リスト長押しで削除できます。"
+                android:id="@+id/textView"
+                android:layout_gravity="center_horizontal" />
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="183dp"
+                android:id="@+id/url_list"
+                android:layout_weight="279.23"
+                android:layout_marginTop="5dp" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/save_setting"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_weight="0.02"
+                android:src="@drawable/ic_check_circle_white_24dp"
+                app:backgroundTint="#0ca5ba" />
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
