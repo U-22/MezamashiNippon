@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,15 +32,18 @@ import java.util.Collections;
  * Created by kimata on 16/08/12.
  */
 
-/** 変数
- * 　urlList : 登録されているurlのリスト
- * 　WebUrl : 最後にwebViewで見たサイトのURL
+/** public変数
+ * 　ArrayList<String> urlList : 登録されているurlのリスト
+ * 　boolean alarmSet : アラームを鳴らすか鳴らさないか
+ * 　String alarmTime :　"(時間)：(分)" の形で設定時間を保管　※()内は数値
+ * 　int nNumber : 表示するニュース数
  */
 
 public class SettingActivity extends Activity implements View.OnClickListener {
     TimePickerDialog dialog;
-    private Button webButton;
-    // url保存用のリスト
+    public boolean alarmSet;
+    public String alarmTime;
+    public int nNumber;
     public ArrayList<String> urlList = new ArrayList<>();
 
 
@@ -48,9 +52,11 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         // NullPointerException防止のためのリスト先頭要素
-        urlList.add("first");
+        urlList.add("ここに登録したサイトのURLが表示されます");
         // 前回の設定読み込み
         loadSettingData();
+
+        setnNumber();
 
         // webViewから遷移してきた時のみurlをリストビューに追加
         Intent intent1 = getIntent();
@@ -59,10 +65,12 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             urlList.add(webUrl);
         }
         // NullPointerException防止の先頭要素を削除
-        urlList.removeAll(Collections.singletonList("first"));
+        urlList.removeAll(Collections.singletonList("ここに登録したサイトのURLが表示されます"));
         // ListViewを更新して表示
+
         showListView(urlList);
 
+        Button webButton;
         webButton = (Button) findViewById(R.id.web_botton);
         webButton.setOnClickListener(this);
 
@@ -82,6 +90,19 @@ public class SettingActivity extends Activity implements View.OnClickListener {
 
             }
         });
+        ToggleButton tb = (ToggleButton) findViewById(R.id.toggleButton);
+
+        //ToggleのCheckが変更したタイミングで呼び出されるリスナー
+        tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //トグルキーが変更された際に呼び出される
+                Log.d("debug", "isCheckedは" + isChecked);
+                // アラーム設定のON,OFF
+                alarmSet = isChecked;
+            }
+        });
+
         // 設定保存ボタン押下のとき
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.save_setting);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -99,14 +120,17 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView list = (ListView) parent;
+
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.row,R.id.row_textview);
                 String item = (String) list.getItemAtPosition(position);
-                Log.d("Debug","itemの値"+item);
+                if (item == "ここに登録したサイトのURLが表示されます"){
+                    //削除しない
+                    return false;
+                }
                 // 項目を削除
                 adapter.remove(item);
                 urlList.remove(position);
                 list.setAdapter(adapter);
-                Log.d("Debug","remove後のurlList"+urlList);
                 showListView(urlList);
                 return false;
             }
@@ -119,8 +143,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         saveSettingData();
         Intent intent = new Intent();
         intent.setClassName("com.example.kimata.mezamashinippon", "com.example.kimata.mezamashinippon.WebActivity");
-
-        //intent.putStringArrayListExtra("urlList",urlList);
         startActivity(intent);
     }
 
@@ -144,7 +166,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
 
         // アラーム時刻保存
         TextView textView = (TextView)findViewById(R.id.timeDialog);
-        String alarmTime = textView.getText().toString();
+        alarmTime = textView.getText().toString();
 
         // ニュース数
         Spinner spinner = (Spinner)findViewById(R.id.newsNumber);
@@ -167,23 +189,27 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     }
 
     private void loadSettingData() {
+
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         ToggleButton toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
         toggleButton.setChecked(sp.getBoolean("AlarmSwitch_key", false));
         TextView textView = (TextView) findViewById(R.id.timeDialog);
-        textView.setText(sp.getString("AlarmTime_key", "設定時刻がここに表示されます"));
+        textView.setText(sp.getString("AlarmTime_key", "時間が表示されます"));
         ((Spinner) findViewById(R.id.newsNumber)).setSelection(sp.getInt("NewsNumber_key", 0));
 
         ListView listView = (ListView) findViewById(R.id.url_list);
-        String json = sp.getString("Url_key", "");
+        String json = sp.getString("Url_key", null);
         Gson gson = new Gson();
         String[] URLS = gson.fromJson(json, String[].class);
-        urlList = new ArrayList<>(Arrays.asList(URLS));
+
+        if (URLS != null && URLS.length != 0){
+            urlList = new ArrayList<>(Arrays.asList(URLS));
+        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(SettingActivity.this, R.layout.row, R.id.row_textview);
         listView.setAdapter(adapter);
         showListView(urlList);
-        Log.d("urlList","loadsetting後のurlList"+urlList);
+        Log.d("debug","loadsetting後のurlList"+urlList);
     }
 
     private void showListView(ArrayList<String> urlList){
@@ -196,5 +222,15 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             }
             listView.setAdapter(adapter);
         }
+    }
+
+    private void setnNumber(){
+        // Spinnerオブジェクトを取得
+        Spinner spinner = (Spinner)findViewById(R.id.newsNumber);
+
+        // 選択されているアイテムを取得
+        String item = (String)spinner.getSelectedItem();
+        nNumber=Integer.parseInt(item);
+        Log.d("Debug","nNumberは"+nNumber);
     }
 }
