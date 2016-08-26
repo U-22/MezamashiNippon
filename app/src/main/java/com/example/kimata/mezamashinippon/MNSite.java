@@ -67,6 +67,7 @@ public class MNSite {
     {
         return m_rssUr;
     }
+    ArrayList<MNHtml> getHtmlList(){return m_HtmlList;}
 
 
 

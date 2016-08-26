@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,19 +32,25 @@ public class TestActivity extends AppCompatActivity {
         targetSite = new MNSite("http://gigazine.net/");
         targetSite.setStartIdentifier("映画化もされた冒険小説");
         targetSite.setEndIdentifier("めて公開しています。");
-        //targetSite.generateStartPath("http://www.sankei.com/rio2016/news/160819/rio1608190013-n1.html");
         (new Thread(new Runnable() {
             @Override
             public void run() {
+                targetSite.generateStartPath("http://gigazine.net/news/20160810-project-sauron/");
                 targetSite.findRssUrl();
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(2016, 7, 21);
                 targetSite.addNewArticle(calendar.getTime());
                 targetSite.generateHtml();
+                final ArrayList<MNHtml> htmlList = targetSite.getHtmlList();
+                htmlList.get(0).findStartElement();
+                htmlList.get(0).findEndElement();
+                htmlList.get(0).generateMainContents();
+                final String temp = htmlList.get(0).getMainContents();
+                Log.d("element", htmlList.get(0).getStartElementString());
                 uihandler.post(new Runnable() {
                                    @Override
                                    public void run() {
-                                       result.setText(targetSite.getRssUrl());
+                                       result.setText(temp);
                                    }
                                }
 

@@ -112,7 +112,46 @@ public class MNHtml {
         }
     }*/
     //パスを使う新バージョン
-    
+    void findStartElement()
+    {
+        Elements candinates = m_targetDoc.getAllElements();
+        for (String tagName : m_startPath)
+        {
+            if(tagName.equals("#root"))
+            {
+                continue;
+            }
+            if(candinates.select(tagName).isEmpty())
+            {
+                break;
+            }
+            candinates = candinates.select(tagName);
+        }
+        if(!candinates.isEmpty())
+        {
+            m_startElement = candinates.first();
+        }
+    }
+    void findEndElement()
+    {
+        Elements candinates = m_targetDoc.getAllElements();
+        for (String tagName : m_startPath)
+        {
+            if(tagName.equals("#root"))
+            {
+                continue;
+            }
+            if(candinates.select(tagName).isEmpty())
+            {
+                break;
+            }
+            candinates = candinates.select(tagName);
+        }
+        if(!candinates.isEmpty())
+        {
+            m_endElement = candinates.last();
+        }
+    }
     //箇条書きなど、htmlのスタイルによっては順番が前後することあり
     //要改良
     boolean generateMainContents()
