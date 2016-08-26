@@ -39,6 +39,7 @@ public class TestActivity extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(2016, 7, 21);
                 targetSite.addNewArticle(calendar.getTime());
+                targetSite.generateHtml();
                 uihandler.post(new Runnable() {
                                    @Override
                                    public void run() {

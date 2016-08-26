@@ -25,6 +25,7 @@ public class MNSite {
     private ArrayList<String> m_startPath;
     private ArrayList<String> m_endPath;
     private ArrayList<String> m_newArticleList;
+    private ArrayList<MNHtml> m_HtmlList;
 
     MNSite(String url)
     {
@@ -35,6 +36,7 @@ public class MNSite {
         m_startPath = new ArrayList<String>();
         m_endPath = new ArrayList<String>();
         m_newArticleList = new ArrayList<String>();
+        m_HtmlList = new ArrayList<MNHtml>();
     }
 
     //setter
@@ -138,7 +140,6 @@ public class MNSite {
     //新しく追加された記事を追加
     void addNewArticle(Date baseDate)
     {
-        Log.d("now", new Date().toString());
         try{
             Document targetDoc = Jsoup.connect(m_rssUr).get();
             Elements items = targetDoc.select("item");
@@ -158,9 +159,23 @@ public class MNSite {
 
 
     //MNHtmlの生成
-    //明日はここから
+    //最初にm_HtmlListを初期化
     boolean generateHtml()
     {
+        m_HtmlList.clear();
+        if(m_newArticleList.isEmpty())
+        {
+            return false;
+        }
+        for(String url : m_newArticleList)
+        {
+            MNHtml html = new MNHtml(url, m_startPath);
+            //下記の関数は改良したのちにテスト
+            //html.findStartElement();
+            //html.findEndElement();
+            //html.generateMainContents();
+            m_HtmlList.add(html);
+        }
         return true;
     }
 

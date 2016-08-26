@@ -33,7 +33,7 @@ public class MNHtml {
     private ArrayList<String> m_endPath;
 
     //コンストラクタ
-    MNHtml(String url)
+    MNHtml(String url, ArrayList<String> path)
     {
         m_targetUrl = url;
 
@@ -44,7 +44,7 @@ public class MNHtml {
             e.printStackTrace();
         }
         m_imageList = new ArrayList<Bitmap>();
-        //m_startPath = new ArrayList<String>();
+        m_startPath = new ArrayList<String>(path);
         //m_endPath = new ArrayList<String>();
         //m_startDepth = 0;
         //m_endDepth = 0;
@@ -88,7 +88,8 @@ public class MNHtml {
 
 
     //本文取得関数群
-    boolean findStartElement()
+    //旧バージョン
+    /*boolean findStartElement()
     {
         if(!m_startIdentifier.isEmpty()) {
             Elements candinateElements = m_targetDoc.getElementsContainingOwnText(m_startIdentifier);
@@ -109,7 +110,9 @@ public class MNHtml {
         }else{
             return false;
         }
-    }
+    }*/
+    //パスを使う新バージョン
+    
     //箇条書きなど、htmlのスタイルによっては順番が前後することあり
     //要改良
     boolean generateMainContents()
