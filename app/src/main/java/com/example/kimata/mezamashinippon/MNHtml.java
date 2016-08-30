@@ -22,15 +22,12 @@ import java.util.ArrayList;
 public class MNHtml {
     private Document m_targetDoc;
     private String m_targetUrl;
-    private String m_startIdentifier;
-    private String m_endIdentifier;
     private Element m_startElement;
     private Element m_endElement;
     private String m_mainContents;
     private String m_mainTitle;
     private ArrayList<Bitmap> m_imageList;
-    private ArrayList<String> m_startPath;
-    private ArrayList<String> m_endPath;
+    private ArrayList<String> m_Path;
 
     //コンストラクタ
     MNHtml(String url, ArrayList<String> path)
@@ -44,12 +41,7 @@ public class MNHtml {
             e.printStackTrace();
         }
         m_imageList = new ArrayList<Bitmap>();
-        m_startPath = new ArrayList<String>(path);
-        //m_endPath = new ArrayList<String>();
-        //m_startDepth = 0;
-        //m_endDepth = 0;
-        m_startIdentifier = new String();
-        m_endIdentifier = new String();
+        m_Path = new ArrayList<String>(path);
         m_mainContents = new String();
         m_mainTitle = new String();
         m_startElement = null;
@@ -57,20 +49,6 @@ public class MNHtml {
     }
 
     //setter
-    void setStartIdentifier(String start)
-    {
-        if(!start.isEmpty())
-        {
-            m_startIdentifier = start;
-        }
-    }
-    void setEndIdentifier(String end)
-    {
-        if(!end.isEmpty())
-        {
-            m_endIdentifier = end;
-        }
-    }
 
     //getter
     //for test
@@ -115,7 +93,7 @@ public class MNHtml {
     void findStartElement()
     {
         Elements candinates = m_targetDoc.getAllElements();
-        for (String tagName : m_startPath)
+        for (String tagName : m_Path)
         {
             if(tagName.equals("#root"))
             {
@@ -135,7 +113,7 @@ public class MNHtml {
     void findEndElement()
     {
         Elements candinates = m_targetDoc.getAllElements();
-        for (String tagName : m_startPath)
+        for (String tagName : m_Path)
         {
             if(tagName.equals("#root"))
             {

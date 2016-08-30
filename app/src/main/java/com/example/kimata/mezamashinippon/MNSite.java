@@ -22,8 +22,7 @@ public class MNSite {
     private String m_rssUr;
     private String m_startIdentifier;
     private String m_endIdentifier;
-    private ArrayList<String> m_startPath;
-    private ArrayList<String> m_endPath;
+    private ArrayList<String> m_Path;
     private ArrayList<String> m_newArticleList;
     private ArrayList<MNHtml> m_HtmlList;
 
@@ -33,8 +32,7 @@ public class MNSite {
         m_rssUr = new String();
         m_startIdentifier = new String();
         m_endIdentifier = new String();
-        m_startPath = new ArrayList<String>();
-        m_endPath = new ArrayList<String>();
+        m_Path = new ArrayList<String>();
         m_newArticleList = new ArrayList<String>();
         m_HtmlList = new ArrayList<MNHtml>();
     }
@@ -55,13 +53,9 @@ public class MNSite {
         }
     }
     //getter
-    ArrayList<String> getStartPath()
+    ArrayList<String> getPath()
     {
-        return m_startPath;
-    }
-    ArrayList<String> getEndPath()
-    {
-        return m_endPath;
+        return m_Path;
     }
     String getRssUrl()
     {
@@ -84,34 +78,10 @@ public class MNSite {
                     if (startElement == null) {
                         break;
                     }
-                    m_startPath.add(startElement.tagName());
+                    m_Path.add(startElement.tagName());
                 }
-                Collections.reverse(m_startPath);
+                Collections.reverse(m_Path);
             } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    void generateEndPath(final String sampleUrl)
-    {
-        if(m_endIdentifier != null)
-        {
-            try{
-                Document targetDoc = Jsoup.connect(sampleUrl).get();
-                Elements candinateElements = targetDoc.getElementsContainingOwnText(m_endIdentifier);
-                Element endELement = candinateElements.last();
-                //Element endOfDocument = targetDoc.getAllElements().last();
-                while(true){
-                    /*m_endPath.add(endOfDocument.tagName());
-                    endOfDocument = endOfDocument.parent();*/
-                    endELement = endELement.parent();
-                    if(endELement == null)
-                    {
-                        break;
-                    }
-                    m_endPath.add(endELement.tagName());
-                }
-            }catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -170,11 +140,10 @@ public class MNSite {
         }
         for(String url : m_newArticleList)
         {
-            MNHtml html = new MNHtml(url, m_startPath);
-            //下記の関数は改良したのちにテスト
-            //html.findStartElement();
-            //html.findEndElement();
-            //html.generateMainContents();
+            MNHtml html = new MNHtml(url, m_Path);
+            html.findStartElement();
+            html.findEndElement();
+            html.generateMainContents();
             m_HtmlList.add(html);
         }
         return true;
