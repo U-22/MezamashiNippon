@@ -1,6 +1,7 @@
 package com.example.kimata.mezamashinippon;
 
 import android.app.Activity;
+import android.app.SharedElementCallback;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,7 +54,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     public String alarmTime;
     public int nNumber;
     public ArrayList<String> urlList = new ArrayList<>();
-    private ArrayList<MNSite> m_siteList;
+    private ArrayList<MNSite> m_siteList = new ArrayList<>();
     private Document m_settingFile;
 
 
@@ -73,6 +75,14 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         String webUrl = intent1.getStringExtra("url");
         if (webUrl != null ){
             urlList.add(webUrl);
+            //MNSiteを生成しリストに追加
+            MNSite newSite = new MNSite(webUrl);
+            //TODO:以下の情報がとってこれるようになったら別スレッドで以下の処理を実行
+            //newSite.setStartIdentifier();
+            //newSite.setEndIdentifier();
+            //newSite.generateStartPath();
+            //newSite.findRssUrl();
+            m_siteList.add(newSite);
         }
         // NullPointerException防止の先頭要素を削除
         urlList.removeAll(Collections.singletonList("ここに登録したサイトのURLが表示されます"));
@@ -145,11 +155,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 return false;
             }
         });
-
-        //ファイルが存在するかのチェック
-        if(checkSettingFileExisit())
-        {
-        }
     }
 
     @Override
@@ -201,6 +206,15 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         editor.putString("Url_key", json);
 
         editor.commit();
+
+        saveMNSiteList();
+    }
+
+    private void saveMNSiteList(){
+        SharedPreferences sp = getSharedPreferences(MNStringResources.SETTING_FILE_NAME, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String siteList = gson.toJson(m_siteList);
+        sp.edit().putString("MNSiteList", siteList).commit();
     }
 
     private void loadSettingData() {
@@ -221,10 +235,23 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             urlList = new ArrayList<>(Arrays.asList(URLS));
         }
 
+        loadMNSiteList();
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(SettingActivity.this, R.layout.row, R.id.row_textview);
         listView.setAdapter(adapter);
         showListView(urlList);
         Log.d("debug","loadsetting後のurlList"+urlList);
+    }
+
+    private void loadMNSiteList(){
+        SharedPreferences sp = getSharedPreferences(MNStringResources.SETTING_FILE_NAME, MODE_PRIVATE);
+        String siteList = sp.getString("MNSiteList", "");
+        Gson gson = new Gson();
+        MNSite[] siteArray = gson.fromJson(siteList, MNSite[].class);
+        if(siteArray != null && siteArray.length != 0)
+        {
+            m_siteList = new ArrayList<>(Arrays.asList(siteArray));
+        }
     }
 
     private void showListView(ArrayList<String> urlList){
