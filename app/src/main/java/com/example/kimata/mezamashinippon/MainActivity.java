@@ -9,17 +9,16 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.Set;
 
 public class MainActivity extends Activity {
-
-    private ImageButton button_setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ImageButton button_setting;
         button_setting = (ImageButton)findViewById(R.id.button_setting);
         button_setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,7 +28,5 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
-
     }
-
 }

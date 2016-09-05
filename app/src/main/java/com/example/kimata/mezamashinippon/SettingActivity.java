@@ -2,6 +2,8 @@ package com.example.kimata.mezamashinippon;
 
 import android.app.Activity;
 import android.app.SharedElementCallback;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
@@ -16,9 +18,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -44,13 +47,16 @@ import java.util.Collections;
 /** public変数
  * 　ArrayList<String> urlList : 登録されているurlのリスト
  * 　boolean alarmSet : アラームを鳴らすか鳴らさないか
- * 　String alarmTime :　"(時間)：(分)" の形で設定時間を保管　※()内は数値
+ * 　String alarmHour :　アラームの時間
+ * 　String alarmTime :　アラームの分
  * 　int nNumber : 表示するニュース数
  */
 
 public class SettingActivity extends Activity implements View.OnClickListener {
     TimePickerDialog dialog;
     public boolean alarmSet;
+    public int alarmHour;
+    public int alarmMin;
     public String alarmTime;
     public int nNumber;
     public ArrayList<String> urlList = new ArrayList<>();
@@ -67,8 +73,14 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         urlList.add("ここに登録したサイトのURLが表示されます");
         // 前回の設定読み込み
         loadSettingData();
-
         setnNumber();
+
+        Log.d("debug","始：起動時public変数チェック");
+        Log.d("debug","alarmSetの値は "+alarmSet);
+        Log.d("debug","alarmHourの値は "+alarmHour);
+        Log.d("debug","alarmMinの値は "+alarmMin);
+        Log.d("debug","nNumberの値は "+nNumber);
+        Log.d("debug","終：起動時public変数チェック");
 
         // webViewから遷移してきた時のみurlをリストビューに追加
         Intent intent1 = getIntent();
@@ -90,8 +102,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
 
         showListView(urlList);
 
-        Button webButton;
-        webButton = (Button) findViewById(R.id.web_botton);
+        ImageButton webButton;
+        webButton = (ImageButton) findViewById(R.id.web_botton);
         webButton.setOnClickListener(this);
 
         findViewById(R.id.pickTime).setOnClickListener(new View.OnClickListener() {
@@ -104,22 +116,10 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 final int minute = calendar.get(Calendar.MINUTE);
 
                 //ダイアログの生成及び初期値の設定
-                dialog = new TimePickerDialog(SettingActivity.this, android.R.style.Theme_Black, onTimeSetListner, hour, minute, false);
+                dialog = new TimePickerDialog(SettingActivity.this, android.R.style.Theme_Black, onTimeSetListner, hour, minute, true);
 
                 dialog.show();
 
-            }
-        });
-        ToggleButton tb = (ToggleButton) findViewById(R.id.toggleButton);
-
-        //ToggleのCheckが変更したタイミングで呼び出されるリスナー
-        tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //トグルキーが変更された際に呼び出される
-                Log.d("debug", "isCheckedは" + isChecked);
-                // アラーム設定のON,OFF
-                alarmSet = isChecked;
             }
         });
 
@@ -173,6 +173,20 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             Toast.makeText(SettingActivity.this,
                     "アラームを " + Integer.toString(hourOfDay) + " : "
                             + Integer.toString(minute) + " にセットしました", Toast.LENGTH_SHORT).show();
+            alarmHour = hourOfDay;
+            alarmMin = minute;
+
+            // 設定時刻になったらニュース画面に遷移する設定
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR, alarmHour);
+            calendar.set(Calendar.MINUTE, alarmMin);
+            Intent intent = new Intent(getApplicationContext(), NewsActivity.class);
+            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(),0, intent, 0);
+            // セットする
+            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+
+
             String time = String.format("%02d : %02d", hourOfDay, minute);
             TextView textView = (TextView) findViewById(R.id.timeDialog);
             textView.setText(time);
@@ -181,12 +195,13 @@ public class SettingActivity extends Activity implements View.OnClickListener {
 
     private void saveSettingData() {
         // アラームボタン設定の保存
-        ToggleButton toggleButton = (ToggleButton)findViewById(R.id.toggleButton);
-        boolean alarmSwitch = toggleButton.isChecked();
+        Switch s = (Switch) findViewById(R.id.switch1);
+        alarmSet = s.isChecked();
 
         // アラーム時刻保存
         TextView textView = (TextView)findViewById(R.id.timeDialog);
         alarmTime = textView.getText().toString();
+
 
         // ニュース数
         Spinner spinner = (Spinner)findViewById(R.id.newsNumber);
@@ -197,8 +212,10 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();
         // データを登録する
-        editor.putBoolean("AlarmSwitch_key", alarmSwitch);
+        editor.putBoolean("AlarmSwitch_key", alarmSet);
         editor.putString("AlarmTime_key", alarmTime);
+        editor.putInt("AlarmHour_key", alarmHour);
+        editor.putInt("AlarmMin_key", alarmMin);
         editor.putInt("NewsNumber_key", newsNumber);
 
         Gson gson = new Gson();
@@ -220,10 +237,14 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     private void loadSettingData() {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        ToggleButton toggleButton = (ToggleButton) findViewById(R.id.toggleButton);
-        toggleButton.setChecked(sp.getBoolean("AlarmSwitch_key", false));
+        Switch s = (Switch) findViewById(R.id.switch1);
+        s.setChecked(sp.getBoolean("AlarmSwitch_key", false));
+        alarmSet = s.isChecked();
+
         TextView textView = (TextView) findViewById(R.id.timeDialog);
         textView.setText(sp.getString("AlarmTime_key", "時間が表示されます"));
+        alarmHour = sp.getInt("AlarmHour_key", 0);
+        alarmMin = sp.getInt("AlarmMin_key", 0);
         ((Spinner) findViewById(R.id.newsNumber)).setSelection(sp.getInt("NewsNumber_key", 0));
 
         ListView listView = (ListView) findViewById(R.id.url_list);

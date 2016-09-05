@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/linearlayout01">
+            android:id="@+id/linearlayout01"
+            android:backgroundTint="@color/accent_material_light">
 
             <TextView
                 android:id="@+id/textView2"
@@ -29,13 +30,12 @@
                 android:textColor="#ffffff"
                 android:textSize="20dp" />
 
-            <ToggleButton
-                android:layout_width="141dp"
+            <Switch
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New ToggleButton"
-                android:id="@+id/toggleButton"
+                android:id="@+id/switch1"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/timeDialog"
@@ -47,15 +47,17 @@
                 android:textColor="#020202"
                 android:textSize="35dp"
                 android:textStyle="italic"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="5dp" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/pickTime"
+                android:src="@drawable/ic_schedule_black_24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_rounded_corners_10dp"
                 android:layout_weight="0.04"
-                android:text="時刻設定" />
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -71,17 +73,17 @@
 
             <Spinner
                 android:id="@+id/newsNumber"
-                android:layout_width="157dp"
+                android:layout_width="112dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="0.42"
-                android:entries="@array/list" />
+                android:entries="@array/list"
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_weight="0.07"
                 android:background="@color/accent_material_light"
                 android:gravity="center_vertical"
@@ -89,13 +91,14 @@
                 android:textColor="#ffffff"
                 android:textSize="20dp" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/web_botton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_black_24dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_weight="0.07"
-                android:text="Webから探す" />
+                android:background="@drawable/shape_rounded_corners_10dp"
+                android:layout_marginTop="20dp" />
 
 
             <TextView
@@ -103,7 +106,8 @@
                 android:layout_height="wrap_content"
                 android:text="リスト長押しで削除できます。"
                 android:id="@+id/textView"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp" />
 
             <ListView
                 android:layout_width="wrap_content"

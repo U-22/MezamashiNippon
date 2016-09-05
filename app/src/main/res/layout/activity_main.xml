@@ -15,5 +15,6 @@
         android:id="@+id/button_setting"
         android:src="@drawable/ic_settings_black_24dp"
         android:layout_marginBottom="36dp"
+        android:background="@drawable/shape_rounded_corners_10dp"
         android:layout_gravity="center|bottom" />
 </LinearLayout>
