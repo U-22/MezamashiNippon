@@ -3,6 +3,7 @@ package com.example.kimata.mezamashinippon;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +24,12 @@ import android.widget.ToggleButton;
 
 import com.google.gson.Gson;
 
+import org.jsoup.nodes.Document;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -45,12 +52,15 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     public String alarmTime;
     public int nNumber;
     public ArrayList<String> urlList = new ArrayList<>();
+    private ArrayList<MNSite> m_siteList;
+    private Document m_settingFile;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
         // NullPointerException防止のためのリスト先頭要素
         urlList.add("ここに登録したサイトのURLが表示されます");
         // 前回の設定読み込み
@@ -135,6 +145,11 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 return false;
             }
         });
+
+        //ファイルが存在するかのチェック
+        if(checkSettingFileExisit())
+        {
+        }
     }
 
     @Override
@@ -232,5 +247,25 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         String item = (String)spinner.getSelectedItem();
         nNumber=Integer.parseInt(item);
         Log.d("Debug","nNumberは"+nNumber);
+    }
+
+    private Boolean checkSettingFileExisit()
+    {
+        final String[] fileList = this.fileList();
+        final int size = fileList.length;
+        for(int i= 0; i < size; i++)
+        {
+            String fileName = fileList[i];
+            if(fileName.equals(MNStringResources.SETTING_FILE_NAME))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void loadSettingFile()
+    {
+        //m_settingFile =
     }
 }

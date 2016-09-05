@@ -1,8 +1,11 @@
 package com.example.kimata.mezamashinippon;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -28,5 +31,46 @@ public class MNUtil {
             return null;
         }
         throw new AssertionError(tag + "is not supported to use for Date");
+    }
+    //ファイルからバイナリを読み込み文字列に変換
+    public static String readFiletoString(FileInputStream is)
+    {
+        ArrayList<Byte> ByteList = new ArrayList<Byte>();
+        byte[] byteArray = new byte[10];
+        int i = 0;
+        while (i != -1)
+        {
+            try{
+                i = is.read(byteArray, 0, 10);
+                for(int j = 0; j < i; j++)
+                {
+                    Byte tempByte = new Byte(byteArray[j]);
+                    ByteList.add(tempByte);
+
+                }
+            }catch (NullPointerException e) {
+                e.printStackTrace();
+            }catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        Byte[] ByteArray = new Byte[ByteList.size()];
+        ByteArray = ByteList.toArray(ByteArray);
+        byte[] bytes = Byte2byte(ByteArray);
+        String returnString = new String(bytes);
+        return returnString;
+    }
+
+    public static byte[] Byte2byte(Byte[] ByteArray)
+    {
+        int size = ByteArray.length;
+        byte[] byteArray = new byte[size];
+        for(int i = 0; i < size; i++)
+        {
+            byteArray[i] = ByteArray[i];
+        }
+        return byteArray;
     }
 }
