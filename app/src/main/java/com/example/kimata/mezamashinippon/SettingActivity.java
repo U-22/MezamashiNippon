@@ -75,13 +75,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         loadSettingData();
         setnNumber();
 
-        Log.d("debug","始：起動時public変数チェック");
-        Log.d("debug","alarmSetの値は "+alarmSet);
-        Log.d("debug","alarmHourの値は "+alarmHour);
-        Log.d("debug","alarmMinの値は "+alarmMin);
-        Log.d("debug","nNumberの値は "+nNumber);
-        Log.d("debug","終：起動時public変数チェック");
-
         // webViewから遷移してきた時のみurlをリストビューに追加
         Intent intent1 = getIntent();
         String webUrl = intent1.getStringExtra("url");
@@ -261,7 +254,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(SettingActivity.this, R.layout.row, R.id.row_textview);
         listView.setAdapter(adapter);
         showListView(urlList);
-        Log.d("debug","loadsetting後のurlList"+urlList);
     }
 
     private void loadMNSiteList(){
@@ -294,7 +286,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         // 選択されているアイテムを取得
         String item = (String)spinner.getSelectedItem();
         nNumber=Integer.parseInt(item);
-        Log.d("Debug","nNumberは"+nNumber);
     }
 
     private Boolean checkSettingFileExisit()
