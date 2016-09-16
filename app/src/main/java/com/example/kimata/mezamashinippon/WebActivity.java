@@ -1,27 +1,45 @@
 package com.example.kimata.mezamashinippon;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-
-import android.view.KeyEvent;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputConnection;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import javax.script.*;
+import android.widget.EditText;
 
 /**
  * Created by kimata on 16/08/18.
+ *
+ * startArticle : 本文　先頭の文字列
+ * endArticle : 本文　末尾の文字列
+ * URL : リストに表示させるサイト名
  */
 public class WebActivity extends Activity {
 
-    protected void onCreate(Bundle savedInstanceState){
+    public String startArticle = "";
+    public String endArticle = "";
+    public String URL;
+
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ScriptEngineManager factory= new ScriptEngineManager();
-        final ScriptEngine engine = factory.getEngineByName("JavaScript");
         setContentView(R.layout.activity_websearch);
+        // トップページへ誘導するダイアログの表示
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("追加したいサイトのトップページへ移動して、下の追加ボタンを押してください")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+        builder.show();
 
         final WebView webView = (WebView) findViewById(R.id.websearchview);
 
@@ -30,9 +48,6 @@ public class WebActivity extends Activity {
 
         //jacascriptを許可する
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient(){
-
-        });
         webView.clearCache(true);
         webView.clearHistory();
 
@@ -40,22 +55,101 @@ public class WebActivity extends Activity {
         fab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // ページurlを取得
-                String url = webView.getUrl();
-                webView.setOnLongClickListener(new View.OnLongClickListener(){
+                URL = webView.getUrl();
+
+                showSiteNameDialog();
+                //showStartArticleDialog();
+                //showEndArticleDialog();
+
+                webView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    public boolean onLongClick(View v){
-                        //String text = webView.loadUrl("javascript:document.getSelection().toString()");
+                    public boolean onLongClick(View v) {
+
+                        // WebView上でJavaScriptを動作させる
+                        String script = "javascript:alert(document.getSelection().toString())";
+                        webView.loadUrl(script);
+
+                        // alert関数のmessage部分を使ってJS→Javaへ値を受け渡し
+                        webView.setWebChromeClient(new WebChromeClient() {
+                            @Override
+                            public boolean onJsAlert(WebView view, String url, String message, android.webkit.JsResult result) {
+                                try {
+                                    if (startArticle.length() == 0) {
+                                        startArticle = message;
+                                        if (startArticle.length() != 0) {
+                                            Log.d("debug", "startArticle：" + message);
+                                            showEndArticleDialog();
+                                        }
+                                        return true;
+                                    } else if (endArticle.length() == 0) {
+                                        endArticle = message;
+                                        // 記事の先頭と末尾を取得できていたら遷移する
+                                        if (startArticle.length() != 0 && endArticle.length() != 0) {
+                                            Log.d("debug", "endArticle：" + message);
+
+                                            // 遷移します
+                                            Intent objIntent = new Intent(getApplicationContext(), SettingActivity.class);
+                                            objIntent.putExtra("url", URL);
+                                            startActivity(objIntent);
+                                        }
+                                    }
+                                    return true;
+                                } finally {
+                                    result.confirm();
+                                }
+                            }
+                        });
+
                         return false;
                     }
-
                 });
-
-                Intent objIntent = new Intent(getApplicationContext(),SettingActivity.class);
-                objIntent.putExtra("url",url);
-                startActivity(objIntent);
-
             }
         });
+    }
 
+    // AlertDialogは入れ子にして実装する。ボタンを押したら次のダイアログへ
+
+    // リストに表示するサイト名を入力するダイアログ
+    private void showSiteNameDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final EditText editView = new EditText(getApplicationContext());
+        editView.setText(URL);
+        editView.setTextColor(Color.BLACK);
+        builder.setMessage("サイトの登録名を入力してください")
+                .setView(editView)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // デフォルトでは入力フォームにurlが設定
+                        URL = editView.getText().toString();
+                        Log.d("debug", "リストに追加されるサイト名は:" + URL);
+
+                        showStartArticleDialog();
+                    }
+                });
+        builder.show();
+    }
+
+    // 文頭選択のアナウンスのダイアログ
+    private void showStartArticleDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // 先頭文字選択のアナウンス
+        builder.setMessage("次にサイトの構造を登録します。\nまず、適当な記事の「先頭の文字列」を選択して長押ししてください。")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        builder.show();
+    }
+
+    // 文末選択のアナウンスダイアログ
+    private void showEndArticleDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // 末尾文字選択のアナウンス
+        builder.setMessage("記事の先頭を取得できました。\n次に「本文の末尾の文字列」を選択して長押ししてください。")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        builder.show();
     }
 }
