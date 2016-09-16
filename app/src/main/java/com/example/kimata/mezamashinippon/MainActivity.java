@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -19,7 +20,17 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageButton button_setting;
+        Button button_debug;
         button_setting = (ImageButton)findViewById(R.id.button_setting);
+        button_debug = (Button)findViewById(R.id.button_debug);
+        button_debug.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setClassName("com.example.kimata.mezamashinippon","com.example.kimata.mezamashinippon.NewsActivity");
+                startActivity(intent);
+            }
+        });
         button_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
