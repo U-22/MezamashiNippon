@@ -19,6 +19,7 @@ import android.widget.EditText;
  *
  * startArticle : 本文　先頭の文字列
  * endArticle : 本文　末尾の文字列
+ * samplePageURL : 本文と末尾を取ってきた記事のURL
  * URL : リストに表示させるサイト名
  */
 public class WebActivity extends Activity {
@@ -26,6 +27,7 @@ public class WebActivity extends Activity {
     public String startArticle = "";
     public String endArticle = "";
     public String URL;
+    public String samplePageURL;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,10 @@ public class WebActivity extends Activity {
                                         // 記事の先頭と末尾を取得できていたら遷移する
                                         if (startArticle.length() != 0 && endArticle.length() != 0) {
                                             Log.d("debug", "endArticle：" + message);
+
+                                            //サンプルページのURL取得
+                                            samplePageURL =  webView.getUrl();
+                                            Log.d("debug" , "samplePageURLは："+samplePageURL);
 
                                             // 遷移します
                                             Intent objIntent = new Intent(getApplicationContext(), SettingActivity.class);
