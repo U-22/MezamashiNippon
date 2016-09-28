@@ -96,6 +96,9 @@ public class WebActivity extends Activity {
                                             // 遷移します
                                             Intent objIntent = new Intent(getApplicationContext(), SettingActivity.class);
                                             objIntent.putExtra("url", URL);
+                                            objIntent.putExtra("startArticle", startArticle);
+                                            objIntent.putExtra("endArticle", endArticle);
+                                            objIntent.putExtra("samplePageURL", samplePageURL);
                                             startActivity(objIntent);
                                         }
                                     }

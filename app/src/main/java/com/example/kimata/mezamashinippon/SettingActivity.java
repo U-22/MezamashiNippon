@@ -78,6 +78,12 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         // webViewから遷移してきた時のみurlをリストビューに追加
         Intent intent1 = getIntent();
         String webUrl = intent1.getStringExtra("url");
+        String startArticle = intent1.getStringExtra("startArticle");
+        String endArticle = intent1.getStringExtra("endArticle");
+        String samplePageURL = intent1.getStringExtra("samplePageURL");
+        Log.d("debug","遷移後のstartArticle:"+startArticle);
+        Log.d("debug","遷移後のendArticle:"+endArticle);
+        Log.d("debug","遷移後のsamplePageURL:"+samplePageURL);
         if (webUrl != null ){
             urlList.add(webUrl);
             //MNSiteを生成しリストに追加
