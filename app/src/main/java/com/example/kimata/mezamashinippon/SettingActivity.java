@@ -149,6 +149,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                     return false;
                 }
                 // 項目を削除
+                //TODO:削除した項目をsharedpreferenceから削除する
                 adapter.remove(item);
                 urlList.remove(position);
                 list.setAdapter(adapter);

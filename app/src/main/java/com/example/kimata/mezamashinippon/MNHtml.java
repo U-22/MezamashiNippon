@@ -62,6 +62,7 @@ public class MNHtml {
         return m_endElement.ownText();
     }
     String getMainContents() {return m_mainContents;}
+    ArrayList<Bitmap> getImageList() {return m_imageList;}
 
 
 
