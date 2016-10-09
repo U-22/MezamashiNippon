@@ -77,17 +77,25 @@ public class SettingActivity extends Activity implements View.OnClickListener {
 
         // webViewから遷移してきた時のみurlをリストビューに追加
         Intent intent1 = getIntent();
-        String webUrl = intent1.getStringExtra("url");
+        final String webUrl = intent1.getStringExtra("url");
+        final String articleUrl = intent1.getStringExtra("samplePageURL");
+        final String webStartIdentifier = intent1.getStringExtra("startArticle");
+        final String webEndIdentifier = intent1.getStringExtra("endArticle");
         if (webUrl != null ){
             urlList.add(webUrl);
             //MNSiteを生成しリストに追加
-            MNSite newSite = new MNSite(webUrl);
             //TODO:以下の情報がとってこれるようになったら別スレッドで以下の処理を実行
-            //newSite.setStartIdentifier();
-            //newSite.setEndIdentifier();
-            //newSite.generateStartPath();
-            //newSite.findRssUrl();
-            m_siteList.add(newSite);
+            (new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    MNSite newSite = new MNSite(webUrl);
+                    newSite.setStartIdentifier(webStartIdentifier);
+                    newSite.setEndIdentifier(webEndIdentifier);
+                    newSite.generateStartPath(articleUrl);
+                    newSite.findRssUrl();
+                    m_siteList.add(newSite);
+                }
+            })).start();
         }
         // NullPointerException防止の先頭要素を削除
         urlList.removeAll(Collections.singletonList("ここに登録したサイトのURLが表示されます"));
