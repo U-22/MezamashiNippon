@@ -63,6 +63,7 @@ public class MNHtml {
     }
     String getMainContents() {return m_mainContents;}
     ArrayList<Bitmap> getImageList() {return m_imageList;}
+    String getMainTitle() {return m_mainTitle;}
 
 
 

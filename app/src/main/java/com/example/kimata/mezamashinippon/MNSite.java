@@ -26,6 +26,8 @@ public class MNSite {
     private ArrayList<String> m_newArticleList;
     private ArrayList<MNHtml> m_HtmlList;
 
+    //
+
     MNSite(String url)
     {
         m_url = url;

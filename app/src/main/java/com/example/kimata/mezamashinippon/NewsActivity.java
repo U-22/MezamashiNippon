@@ -2,7 +2,9 @@ package com.example.kimata.mezamashinippon;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,7 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -29,8 +33,12 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
     private boolean endFlag;
     private int articleCount = 0;
     private int articleIndex = 0;
+    private int newsLimitNumber;
     private GridView gridView;
+    private TextView newsTitle;
     private TextToSpeech announcer;
+    //debug用
+    private Button buttonDebug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +49,23 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
         endFlag = false;
         //SPからsiteリストの復元
         loadMNSiteList();
+        //設定データの取得
+        loadSettingData();
         //gridviewの生成
         gridView = (GridView)findViewById(R.id.articleImage);
+        //タイトルの初期化
+        newsTitle = (TextView)findViewById(R.id.newsTitle);
+
+        buttonDebug = (Button)findViewById(R.id.button_debug);
+        buttonDebug.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                articleIndex++;
+                readArticle(articleIndex);
+            }
+        });
+
         //announcerの初期化
         announcer = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -62,11 +85,7 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
     @Override
     public void onPause()
     {
-        if(announcer != null)
-        {
-            announcer.stop();
-            announcer.shutdown();
-        }
+        releaseTts();
         super.onPause();
     }
 
@@ -105,10 +124,40 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
         }
     }
 
+    private void loadSettingData()
+    {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        newsLimitNumber = sp.getInt("NewsNumber_key", 0);
+    }
+
+    private void releaseTts()
+    {
+        if(announcer != null)
+        {
+            announcer.stop();
+            announcer.shutdown();
+        }
+    }
+
+
     private void readArticle(int nextIndex)
     {
-        gridView.setAdapter(new MNArticleImageAdapter(this, m_htmlList.get(nextIndex).getImageList()));
-        announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
+        if(nextIndex == newsLimitNumber)
+        {
+            releaseTts();
+        }else {
+            gridView.setAdapter(new MNArticleImageAdapter(this, m_htmlList.get(nextIndex).getImageList()));
+
+            //APIレベルに応じて処理を分ける
+
+            newsTitle.setText(m_htmlList.get(nextIndex).getMainTitle());
+            /*if(Build.VERSION.RELEASE.startsWith("5"))
+            {
+                announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null, null);
+            }else{
+                announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
+            }*/
+        }
     }
 
 

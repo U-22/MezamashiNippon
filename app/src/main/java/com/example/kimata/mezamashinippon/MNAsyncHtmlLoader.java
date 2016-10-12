@@ -35,6 +35,7 @@ public class MNAsyncHtmlLoader extends android.support.v4.content.AsyncTaskLoade
         for(MNHtml html : m_htmlList)
         {
             html.getPicture();
+            html.getMainTitle();
         }
         return m_htmlList;
     }
