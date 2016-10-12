@@ -43,7 +43,7 @@ public class MNHtml {
         m_startClassName = startClassName;
         m_startClassNameParent = startClassNameParent;
         m_mainContents = new String();
-        m_mainTitle = m_targetDoc.title();
+        //m_mainTitle = m_targetDoc.title();
     }
 
     //setter
@@ -145,14 +145,15 @@ public class MNHtml {
     //本文取得関数
     void generateMainContent()
     {
+        //<strong("[^"]*"|'[^']*'|[^'">])*>|</strong>
         String content = new String();
         Elements candinates;
-        if(!m_startClassName.isEmpty())
+        if(m_startClassName != null && !m_startClassName.isEmpty())
         {
             candinates = m_targetDoc.getElementsByClass(m_startClassName);
-        }else if(!m_startClassNameParent.isEmpty())
+        }else if(m_startClassNameParent != null && !m_startClassNameParent.isEmpty())
         {
-            candinates = m_targetDoc.getElementsByClass(m_startClassName).first().children();
+            candinates = m_targetDoc.getElementsByClass(m_startClassNameParent).first().children();
         }else{
             m_mainContents = "本文を取得できませんでした";
             return;
