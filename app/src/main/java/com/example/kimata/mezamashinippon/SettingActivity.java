@@ -90,8 +90,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 public void run() {
                     MNSite newSite = new MNSite(webUrl);
                     newSite.setStartIdentifier(webStartIdentifier);
-                    newSite.setEndIdentifier(webEndIdentifier);
-                    newSite.generateStartPath(articleUrl);
+                    newSite.findStartClassName(articleUrl);
                     newSite.findRssUrl();
                     m_siteList.add(newSite);
                 }

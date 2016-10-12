@@ -29,32 +29,22 @@ public class TestActivity extends AppCompatActivity {
         uihandler = new Handler();
         setSupportActionBar(toolbar);
 
-        targetSite = new MNSite("http://gigazine.net/");
-        targetSite.setStartIdentifier("映画化もされた冒険小説");
-        targetSite.setEndIdentifier("めて公開しています。");
+        targetSite = new MNSite("http://www.gizmodo.jp/");
+        targetSite.setStartIdentifier("リンゴマークが丸になっただけのiPhoneじ");
         (new Thread(new Runnable() {
             @Override
             public void run() {
-                targetSite.generateStartPath("http://gigazine.net/news/20160810-project-sauron/");
-                targetSite.findRssUrl();
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(2016, 7, 21);
-                targetSite.addNewArticle(calendar.getTime());
-                targetSite.generateHtml();
-                final ArrayList<MNHtml> htmlList = targetSite.getHtmlList();
-                htmlList.get(0).findStartElement();
-                htmlList.get(0).findEndElement();
-                htmlList.get(0).generateMainContents();
-                final String temp = htmlList.get(0).getMainContents();
-                Log.d("element", htmlList.get(0).getStartElementString());
+                targetSite.findStartClassName("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
+                Log.d("sClassName", "sClassName: " + targetSite.getStartClassName());
+                //final String temp = targetSite.generateMainContent("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
+                final String temp = targetSite.getHtml("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
                 uihandler.post(new Runnable() {
-                                   @Override
-                                   public void run() {
-                                       result.setText(temp);
-                                   }
-                               }
-
-                );
+                    @Override
+                    public void run() {
+                        result.setText(temp);
+                    }
+                });
+                //Log.d("main", "main: " + targetSite.generateMainContent("http://gigazine.net/news/20161012-sns-police-surveillance/"));
             }
         }
 

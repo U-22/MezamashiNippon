@@ -21,22 +21,20 @@ public class MNSite {
     private String m_url;
     private String m_rssUr;
     private String m_startIdentifier;
-    private String m_endIdentifier;
-    private ArrayList<String> m_Path;
+    private String m_startClassName;
+    private String m_startClassNameParent;
     private ArrayList<String> m_newArticleList;
     private ArrayList<MNHtml> m_HtmlList;
-
-    //
 
     MNSite(String url)
     {
         m_url = url;
         m_rssUr = new String();
         m_startIdentifier = new String();
-        m_endIdentifier = new String();
-        m_Path = new ArrayList<String>();
         m_newArticleList = new ArrayList<String>();
         m_HtmlList = new ArrayList<MNHtml>();
+        m_startClassName = new String();
+        m_startClassNameParent = new String();
     }
 
     //setter
@@ -47,46 +45,50 @@ public class MNSite {
             m_startIdentifier = start;
         }
     }
-    void setEndIdentifier(String end)
-    {
-        if(!end.isEmpty())
-        {
-            m_endIdentifier = end;
-        }
-    }
+
     //getter
-    ArrayList<String> getPath()
-    {
-        return m_Path;
-    }
     String getRssUrl()
     {
         return m_rssUr;
     }
     ArrayList<MNHtml> getHtmlList(){return m_HtmlList;}
+    String getStartClassName() {return m_startClassName;}
 
-
-
-    //サイトごとに固有のパスを設定
-    void generateStartPath(final String sampleUrl)
+    //スタート指定子が含まれるhtml要素のクラス名を取得
+    void findStartClassName(final String sampleUrl)
     {
-        if(!m_startIdentifier.isEmpty()) {
-            try {
+        if(!m_startIdentifier.isEmpty())
+        {
+            try{
                 Document targetDoc = Jsoup.connect(sampleUrl).get();
                 Elements candinateElements = targetDoc.getElementsContainingOwnText(m_startIdentifier);
                 Element startElement = candinateElements.first();
-                while (true) {
-                    startElement = startElement.parent();
-                    if (startElement == null) {
-                        break;
-                    }
-                    m_Path.add(startElement.tagName());
+                m_startClassName = startElement.className();
+                if(m_startClassName.isEmpty())
+                {
+                    //スタート指定子が含まれるhtml要素そのクラス名が無かった場合、親のクラス名を取得する
+                    Element parent = startElement.parent();
+                    m_startClassNameParent = parent.className();
                 }
-                Collections.reverse(m_Path);
-            } catch (IOException e) {
+            }catch (IOException e)
+            {
                 e.printStackTrace();
             }
         }
+    }
+
+    String getHtml(final String sampleUrl)
+    {
+        String html = new String();
+        try
+        {
+            Document targetDoc = Jsoup.connect(sampleUrl).get();
+            html = targetDoc.html();
+        }catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return html;
     }
 
     //RSSフィードのURLを取得
@@ -142,10 +144,8 @@ public class MNSite {
         }
         for(String url : m_newArticleList)
         {
-            MNHtml html = new MNHtml(url, m_Path);
-            html.findStartElement();
-            html.findEndElement();
-            html.generateMainContents();
+            MNHtml html = new MNHtml(url, m_startClassName, m_startClassNameParent);
+            html.generateMainContent();
             m_HtmlList.add(html);
         }
         return true;

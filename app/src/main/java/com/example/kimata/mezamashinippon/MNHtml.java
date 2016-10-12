@@ -22,15 +22,14 @@ import java.util.ArrayList;
 public class MNHtml {
     private Document m_targetDoc;
     private String m_targetUrl;
-    private Element m_startElement;
-    private Element m_endElement;
     private String m_mainContents;
     private String m_mainTitle;
+    private String m_startClassName;
+    private String m_startClassNameParent;
     private ArrayList<Bitmap> m_imageList;
-    private ArrayList<String> m_Path;
 
     //コンストラクタ
-    MNHtml(String url, ArrayList<String> path)
+    MNHtml(String url, String startClassName, String startClassNameParent)
     {
         m_targetUrl = url;
 
@@ -41,26 +40,15 @@ public class MNHtml {
             e.printStackTrace();
         }
         m_imageList = new ArrayList<Bitmap>();
-        m_Path = new ArrayList<String>(path);
+        m_startClassName = startClassName;
+        m_startClassNameParent = startClassNameParent;
         m_mainContents = new String();
-        m_mainTitle = new String();
-        m_startElement = null;
-        m_endElement = null;
+        m_mainTitle = m_targetDoc.title();
     }
 
     //setter
 
     //getter
-    //for test
-    String getStartElementString()
-    {
-        return m_startElement.ownText();
-    }
-    //for test
-    String getEndELementString()
-    {
-        return m_endElement.ownText();
-    }
     String getMainContents() {return m_mainContents;}
     ArrayList<Bitmap> getImageList() {return m_imageList;}
     String getMainTitle() {return m_mainTitle;}
@@ -68,31 +56,8 @@ public class MNHtml {
 
 
     //本文取得関数群
-    //旧バージョン
-    /*boolean findStartElement()
-    {
-        if(!m_startIdentifier.isEmpty()) {
-            Elements candinateElements = m_targetDoc.getElementsContainingOwnText(m_startIdentifier);
-            //先頭の要素をスタートノードとみなす
-            m_startElement = candinateElements.first();
-            return true;
-        }else{
-            return false;
-        }
-    }
-    boolean findEndElement()
-    {
-        if(!m_endIdentifier.isEmpty()) {
-            Elements candinateElements = m_targetDoc.getElementsContainingOwnText(m_endIdentifier);
-            //最後の要素をエンドノードとみなす
-            m_endElement = candinateElements.last();
-            return true;
-        }else{
-            return false;
-        }
-    }*/
     //パスを使う新バージョン
-    void findStartElement()
+    /*void findStartElement()
     {
         Elements candinates = m_targetDoc.getAllElements();
         for (String tagName : m_Path)
@@ -111,8 +76,8 @@ public class MNHtml {
         {
             m_startElement = candinates.first();
         }
-    }
-    void findEndElement()
+    }*/
+    /*void findEndElement()
     {
         Elements candinates = m_targetDoc.getAllElements();
         for (String tagName : m_Path)
@@ -131,10 +96,10 @@ public class MNHtml {
         {
             m_endElement = candinates.last();
         }
-    }
+    }*/
     //箇条書きなど、htmlのスタイルによっては順番が前後することあり
     //要改良
-    boolean generateMainContents()
+    /*boolean generateMainContents()
     {
         //リンクは無視する
         if((m_startElement != null) && (m_endElement != null))
@@ -175,46 +140,29 @@ public class MNHtml {
         }else{
             return false;
         }
-    }
-
-    //startElementまでの深さを保存
-    void saveStartDepth()
-    {
-        if(m_startElement != null)
-        {
-            Element temp = m_startElement;
-            while(true) {
-                temp = temp.parent();
-                if(temp == null)
-                {
-                    break;
-                }
-                Log.d("parent", "saveStartDepth: " + temp.tagName());
-            }
-        }
-    }
-
-    //endElementからDOM構造の終端までの深さを保存
-    /*void saveEndDepth()
-    {
-        boolean startFlag = false;
-        if(m_endElement != null)
-        {
-            Elements elements = m_targetDoc.getAllElements();
-            for(Element element : elements)
-            {
-                if(element.equals(m_endElement))
-                {
-                    startFlag = true;
-                }
-                if(startFlag)
-                {
-                    m_endDepth++;
-                }
-            }
-        }
-        Log.d("edepth", "saveEndDepth: " + m_endDepth);
     }*/
+
+    //本文取得関数
+    void generateMainContent()
+    {
+        String content = new String();
+        Elements candinates;
+        if(!m_startClassName.isEmpty())
+        {
+            candinates = m_targetDoc.getElementsByClass(m_startClassName);
+        }else if(!m_startClassNameParent.isEmpty())
+        {
+            candinates = m_targetDoc.getElementsByClass(m_startClassName).first().children();
+        }else{
+            m_mainContents = "本文を取得できませんでした";
+            return;
+        }
+        for(Element element : candinates)
+        {
+            content += element.ownText();
+        }
+        m_mainContents = content;
+    }
 
     //記事内の画像を取得する関数
     //記事に関係の内画像までとってきてしまうため要改良
@@ -243,7 +191,6 @@ public class MNHtml {
             }
         }
     }
-
 
     //MNHtmlからMNArticleの生成
     //生成できる条件が満たされていない場合nullが変える。
