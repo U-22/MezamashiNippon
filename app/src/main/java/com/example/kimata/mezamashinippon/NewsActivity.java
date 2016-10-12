@@ -142,7 +142,7 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
 
     private void readArticle(int nextIndex)
     {
-        if(nextIndex == newsLimitNumber)
+        if((nextIndex >= newsLimitNumber) || (nextIndex > articleCount))
         {
             releaseTts();
         }else {
@@ -151,12 +151,12 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
             //APIレベルに応じて処理を分ける
 
             newsTitle.setText(m_htmlList.get(nextIndex).getMainTitle());
-            /*if(Build.VERSION.RELEASE.startsWith("5"))
+            if(Build.VERSION.RELEASE.startsWith("5"))
             {
                 announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null, null);
             }else{
                 announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
-            }*/
+            }
         }
     }
 
