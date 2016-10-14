@@ -25,7 +25,6 @@ import android.widget.EditText;
 public class WebActivity extends Activity {
 
     public String startArticle = "";
-    public String endArticle = "";
     public String URL;
     public String samplePageURL;
 
@@ -80,14 +79,6 @@ public class WebActivity extends Activity {
                                         startArticle = message;
                                         if (startArticle.length() != 0) {
                                             Log.d("debug", "startArticle：" + message);
-                                            showEndArticleDialog();
-                                        }
-                                        return true;
-                                    } else if (endArticle.length() == 0) {
-                                        endArticle = message;
-                                        // 記事の先頭と末尾を取得できていたら遷移する
-                                        if (startArticle.length() != 0 && endArticle.length() != 0) {
-                                            Log.d("debug", "endArticle：" + message);
 
                                             //サンプルページのURL取得
                                             samplePageURL =  webView.getUrl();
@@ -97,7 +88,6 @@ public class WebActivity extends Activity {
                                             Intent objIntent = new Intent(getApplicationContext(), SettingActivity.class);
                                             objIntent.putExtra("url", URL);
                                             objIntent.putExtra("startArticle", startArticle);
-                                            objIntent.putExtra("endArticle", endArticle);
                                             objIntent.putExtra("samplePageURL", samplePageURL);
                                             startActivity(objIntent);
                                         }
@@ -143,18 +133,6 @@ public class WebActivity extends Activity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // 先頭文字選択のアナウンス
         builder.setMessage("次にサイトの構造を登録します。\nまず、適当な記事の「先頭の文字列」を選択して長押ししてください。")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        builder.show();
-    }
-
-    // 文末選択のアナウンスダイアログ
-    private void showEndArticleDialog(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // 末尾文字選択のアナウンス
-        builder.setMessage("記事の先頭を取得できました。\n次に「本文の末尾の文字列」を選択して長押ししてください。")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                     }
