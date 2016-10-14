@@ -18,6 +18,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MNHtml {
     private Document m_targetDoc;
@@ -146,21 +148,32 @@ public class MNHtml {
     void generateMainContent()
     {
         //<strong("[^"]*"|'[^']*'|[^'">])*>|</strong>
+        //正規表現を用いて、邪魔なタグを取り除く
+        String html = m_targetDoc.html();
+        String regex = "<strong(\"[^\"]*\"|'[^']*'|[^'\">])*>|</strong>|<a(\"[^\"]*\"|'[^']*'|[^'\">])*>|</a>";
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(html);
+        html = matcher.replaceAll("");
+        //html文字列からdocumentを生成
+        Document replacedDoc = Jsoup.parse(html);
         String content = new String();
         Elements candinates;
         if(m_startClassName != null && !m_startClassName.isEmpty())
         {
-            candinates = m_targetDoc.getElementsByClass(m_startClassName);
+            candinates = replacedDoc.getElementsByClass(m_startClassName);
         }else if(m_startClassNameParent != null && !m_startClassNameParent.isEmpty())
         {
-            candinates = m_targetDoc.getElementsByClass(m_startClassNameParent).first().children();
+            candinates = replacedDoc.getElementsByClass(m_startClassNameParent).first().children();
         }else{
             m_mainContents = "本文を取得できませんでした";
             return;
         }
         for(Element element : candinates)
         {
-            content += element.ownText();
+            if(element.ownText() != null && !element.ownText().isEmpty()) {
+                content += element.ownText();
+                content += "\n";
+            }
         }
         m_mainContents = content;
     }
