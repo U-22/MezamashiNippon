@@ -1,13 +1,22 @@
 package com.example.kimata.mezamashinippon;
 
 import android.util.Log;
+import android.util.StringBuilderPrinter;
+import android.util.Xml;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -115,7 +124,58 @@ public class MNSite {
     //新しく追加された記事を追加
     void addNewArticle(Date baseDate)
     {
-        try{
+        try {
+            URL url = new URL(m_rssUr);
+            URLConnection connection = url.openConnection();
+
+            BufferedReader inputStream = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+            StringBuilder stringBuilder = new StringBuilder();
+
+            //xmlパーサーの準備
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setInput(inputStream);
+
+            int eventType = parser.getEventType();
+            boolean isPubDate = false;
+            while (eventType != XmlPullParser.END_DOCUMENT){
+                if(eventType == XmlPullParser.START_TAG)
+                {
+                    String tagName = parser.getName();
+                    if(tagName.equals("dc:date"))
+                    {
+                        isPubDate = false;
+                    }else if(tagName.equals("pubDate"))
+                    {
+                        isPubDate = true;
+                    }
+                }
+                eventType = parser.next();
+            }
+            //jsoupを用いてパース
+            Document targetDoc = Jsoup.connect(m_rssUr).get();
+            Elements items = targetDoc.select("item");
+            for (Element element : items){
+                Date date = new Date();
+                if(isPubDate)
+                {
+                    date = MNUtil.convertRssDate("pubDate",element.select("pubDate").text());
+                }else{
+                    date = MNUtil.convertRssDate("dc|date",element.select("dc|date").text());
+                }
+                Log.d("date", date.toString());
+                if(date.after(baseDate))
+                {
+                    m_newArticleList.add(element.select("link").text());
+                }
+            }
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (XmlPullParserException e){
+            e.printStackTrace();
+        }
+        /*try{
             Document targetDoc = Jsoup.connect(m_rssUr).get();
             Elements items = targetDoc.select("item");
             for (Element element : items){
@@ -129,7 +189,7 @@ public class MNSite {
         }catch (IOException e)
         {
             e.printStackTrace();
-        }
+        }*/
     }
 
 

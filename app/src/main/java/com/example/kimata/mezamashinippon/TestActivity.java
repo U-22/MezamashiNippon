@@ -34,10 +34,13 @@ public class TestActivity extends AppCompatActivity {
         (new Thread(new Runnable() {
             @Override
             public void run() {
-                targetSite.findStartClassName("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
+                /*targetSite.findStartClassName("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
                 Log.d("sClassName", "sClassName: " + targetSite.getStartClassName());
-                //final String temp = targetSite.generateMainContent("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
-                final String temp = targetSite.getHtml("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
+                final String temp = targetSite.generateMainContent("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
+                //final String temp = targetSite.getHtml("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");*/
+                MNHtml html = new MNHtml("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html", "","gz-entryDetailInner");
+                html.generateMainContent();
+                final String temp = html.getMainContents();
                 uihandler.post(new Runnable() {
                     @Override
                     public void run() {

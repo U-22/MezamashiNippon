@@ -23,6 +23,7 @@ public class MNAsyncHtmlLoader extends android.support.v4.content.AsyncTaskLoade
 
 
     @Override
+    //TODO:ユーザーの設定を参照するようにする
     public ArrayList<MNHtml> loadInBackground(){
         for(MNSite site : m_siteList)
         {
