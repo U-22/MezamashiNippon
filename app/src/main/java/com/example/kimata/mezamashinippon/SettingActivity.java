@@ -84,7 +84,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         if (webUrl != null ){
             urlList.add(webUrl);
             //MNSiteを生成しリストに追加
-            //TODO:以下の情報がとってこれるようになったら別スレッドで以下の処理を実行
             (new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -152,6 +151,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 urlList.remove(position);
                 list.setAdapter(adapter);
                 showListView(urlList);
+                m_siteList.remove(position);
+                clearMNSiteList();
                 return false;
             }
         });
@@ -232,6 +233,11 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         Gson gson = new Gson();
         String siteList = gson.toJson(m_siteList);
         sp.edit().putString("MNSiteList", siteList).commit();
+    }
+
+    private void clearMNSiteList(){
+        SharedPreferences sp = getSharedPreferences(MNStringResources.SETTING_FILE_NAME, MODE_PRIVATE);
+        sp.edit().clear().commit();
     }
 
     private void loadSettingData() {

@@ -99,6 +99,7 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<ArrayList<MNHtml>> loader, ArrayList<MNHtml> htmlList)
     {
+        //TODO ニュースの数が0だったらメイン画面に戻す
         m_htmlList = htmlList;
         //記事数の取得
         articleCount = m_htmlList.size();
