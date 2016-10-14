@@ -106,7 +106,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         webButton = (ImageButton) findViewById(R.id.web_botton);
         webButton.setOnClickListener(this);
 
-        findViewById(R.id.pickTime).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.time_setting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //時刻設定ボタンが押された時の処理
@@ -116,8 +116,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                 final int minute = calendar.get(Calendar.MINUTE);
 
                 //ダイアログの生成及び初期値の設定
-                dialog = new TimePickerDialog(SettingActivity.this, android.R.style.Theme_Black, onTimeSetListner, hour, minute, true);
-
+                dialog = new TimePickerDialog(SettingActivity.this, onTimeSetListner, hour, minute, true);
                 dialog.show();
 
             }
@@ -243,7 +242,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         alarmSet = s.isChecked();
 
         TextView textView = (TextView) findViewById(R.id.timeDialog);
-        textView.setText(sp.getString("AlarmTime_key", "時間が表示されます"));
+        textView.setText(sp.getString("AlarmTime_key", "時刻"));
         alarmHour = sp.getInt("AlarmHour_key", 0);
         alarmMin = sp.getInt("AlarmMin_key", 0);
         ((Spinner) findViewById(R.id.newsNumber)).setSelection(sp.getInt("NewsNumber_key", 0));
