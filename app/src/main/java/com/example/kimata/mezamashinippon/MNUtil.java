@@ -1,5 +1,10 @@
 package com.example.kimata.mezamashinippon;
 
+import android.content.Intent;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Time;

@@ -1,6 +1,7 @@
 package com.example.kimata.mezamashinippon;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -99,10 +100,17 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<ArrayList<MNHtml>> loader, ArrayList<MNHtml> htmlList)
     {
-        //TODO ニュースの数が0だったらメイン画面に戻す
         m_htmlList = htmlList;
         //記事数の取得
         articleCount = m_htmlList.size();
+        if(articleCount == 0)
+        {
+            Intent intent = new Intent();
+            intent.setClassName("com.example.kimata.mezamashinippon","com.example.kimata.mezamashinippon.MainActivity");
+            startActivity(intent);
+            //TODO 何かメッセージをだす
+            return;
+        }
         readArticle(articleIndex);
         Log.d("load", "onLoadFinished: ");
     }
