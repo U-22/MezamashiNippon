@@ -45,7 +45,7 @@ public class MNHtml {
         m_startClassName = startClassName;
         m_startClassNameParent = startClassNameParent;
         m_mainContents = new String();
-        //m_mainTitle = m_targetDoc.title();
+        m_mainTitle = m_targetDoc.title();
     }
 
     //setter
@@ -158,12 +158,23 @@ public class MNHtml {
         Document replacedDoc = Jsoup.parse(html);
         String content = new String();
         Elements candinates;
-        if(m_startClassName != null && !m_startClassName.isEmpty())
+        /*if(m_startClassName != null && !m_startClassName.isEmpty())
         {
             candinates = replacedDoc.getElementsByClass(m_startClassName);
-        }else if(m_startClassNameParent != null && !m_startClassNameParent.isEmpty())
+        }else*/
+        if(m_startClassNameParent != null && !m_startClassNameParent.isEmpty())
         {
-            candinates = replacedDoc.getElementsByClass(m_startClassNameParent).first().children();
+            Elements matchedElements = replacedDoc.getElementsByClass(m_startClassNameParent);
+            if(matchedElements.size() == 0)
+            {
+                return;
+            }
+            Element matchedElementFirst = matchedElements.first();
+            if(matchedElementFirst == null)
+            {
+                return;
+            }
+            candinates = matchedElementFirst.children();
         }else{
             m_mainContents = "本文を取得できませんでした";
             return;
@@ -179,20 +190,37 @@ public class MNHtml {
     }
 
     //記事内の画像を取得する関数
-    //記事に関係の内画像までとってきてしまうため要改良
-    void getPicture()
+    //http://からはじまっていないものは除去
+    boolean getPicture()
     {
-        Elements imageElement = m_targetDoc.getElementsByTag("img");
-        Elements linkElement = m_targetDoc.getElementsByTag("a");
-        //全てのリンクの取得
-        ArrayList<String> linkList = new ArrayList<String>();
-        for (final Element element : linkElement)
+        Elements imageElement;
+        if(m_startClassNameParent != null && !m_startClassNameParent.isEmpty())
         {
-            linkList.add(element.attr("href"));
+            Elements matchedElements = m_targetDoc.getElementsByClass(m_startClassNameParent);
+            if(matchedElements.size() == 0)
+            {
+                return false;
+            }
+            Element matchedElementsFirst = matchedElements.first();
+            if(matchedElementsFirst == null)
+            {
+                return false;
+            }
+            imageElement = matchedElementsFirst.getElementsByTag("img");
+        }else{
+            return false;
         }
         for(final Element element : imageElement)
         {
             try {
+                if(element.attr("src").length() < 6)
+                {
+                    continue;
+                }
+                if(!element.attr("src").substring(0, 4).equals("http"))
+                {
+                    continue;
+                }
                 URL url = new URL(element.attr("src"));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
@@ -204,6 +232,7 @@ public class MNHtml {
                 e.printStackTrace();
             }
         }
+        return  true;
     }
 
     //MNHtmlからMNArticleの生成

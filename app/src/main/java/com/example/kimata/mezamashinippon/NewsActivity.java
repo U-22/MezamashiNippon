@@ -153,9 +153,9 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
             newsTitle.setText(m_htmlList.get(nextIndex).getMainTitle());
             if(Build.VERSION.RELEASE.startsWith("5"))
             {
-                announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null, null);
+                //announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null, null);
             }else{
-                announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
+                //announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
             }
         }
     }

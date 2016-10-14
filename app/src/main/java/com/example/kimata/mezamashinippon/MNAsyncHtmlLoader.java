@@ -28,7 +28,7 @@ public class MNAsyncHtmlLoader extends android.support.v4.content.AsyncTaskLoade
         for(MNSite site : m_siteList)
         {
             Calendar calendar = Calendar.getInstance();
-            calendar.set(2016, 9, 11);
+            calendar.set(2016, 9, 13);
             site.addNewArticle(calendar.getTime());
             site.generateHtml();
             m_htmlList.addAll(site.getHtmlList());

@@ -73,12 +73,9 @@ public class MNSite {
                 Elements candinateElements = targetDoc.getElementsContainingOwnText(m_startIdentifier);
                 Element startElement = candinateElements.first();
                 m_startClassName = startElement.className();
-                if(m_startClassName.isEmpty())
-                {
                     //スタート指定子が含まれるhtml要素そのクラス名が無かった場合、親のクラス名を取得する
                     Element parent = startElement.parent();
                     m_startClassNameParent = parent.className();
-                }
             }catch (IOException e)
             {
                 e.printStackTrace();
