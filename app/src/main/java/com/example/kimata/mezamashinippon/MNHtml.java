@@ -150,7 +150,7 @@ public class MNHtml {
         //<strong("[^"]*"|'[^']*'|[^'">])*>|</strong>
         //正規表現を用いて、邪魔なタグを取り除く
         String html = m_targetDoc.html();
-        String regex = "<strong(\"[^\"]*\"|'[^']*'|[^'\">])*>|</strong>|<a(\"[^\"]*\"|'[^']*'|[^'\">])*>|</a>";
+        String regex = "<strong(\"[^\"]*\"|'[^']*'|[^'\">])*>|</strong>|<a(\"[^\"]*\"|'[^']*'|[^'\">])*>|</a>|<b(\"[^\"]*\"|'[^']*'|[^'\">])*>|</b>";
         Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(html);
         html = matcher.replaceAll("");

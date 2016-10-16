@@ -45,7 +45,7 @@ public class MNArticleImageAdapter extends BaseAdapter {
         {
             imageView = new ImageView(mContext);
             imageView.setPadding(10, 10, 10, 10);
-            imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
+            imageView.setLayoutParams(new GridView.LayoutParams(700, 700));
         }else{
             imageView = (ImageView)convertView;
         }

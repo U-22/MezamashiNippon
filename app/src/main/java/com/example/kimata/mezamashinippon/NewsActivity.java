@@ -1,6 +1,7 @@
 package com.example.kimata.mezamashinippon;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -183,23 +184,6 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
                 announcer.speak(m_htmlList.get(index).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
             }
        // }
-        /*if((nextIndex >= newsLimitNumber) || (nextIndex > articleCount))
-        {
-            releaseTts();
-        }else {
-            gridView.setAdapter(new MNArticleImageAdapter(this, m_htmlList.get(nextIndex).getImageList()));
-
-            //APIレベルに応じて処理を分ける
-
-            newsTitle.setText(m_htmlList.get(nextIndex).getMainTitle());
-            if(Build.VERSION.RELEASE.startsWith("5"))
-            {
-                announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null, null);
-            }else{
-                announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
-            }
-        }
-        */
     }
 
 
