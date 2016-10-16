@@ -63,7 +63,7 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
             public void onClick(View v)
             {
                 articleIndex++;
-                readArticle(articleIndex);
+                readArticle();
             }
         });
 
@@ -111,7 +111,7 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
             //TODO 何かメッセージをだす
             return;
         }
-        readArticle(articleIndex);
+        readArticle();
         Log.d("load", "onLoadFinished: ");
     }
 
@@ -149,9 +149,30 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
     }
 
 
-    private void readArticle(int nextIndex)
+    private void readArticle()
     {
-        if((nextIndex >= newsLimitNumber) || (nextIndex > articleCount))
+        //設定記事数が現在の記事数よりも大きい場合上限値を変更する
+        if(newsLimitNumber > articleCount)
+        {
+            newsLimitNumber = articleCount;
+        }
+        //ループでニュースを読み上げる
+        //for(int index = 0; index < newsLimitNumber; index++)
+        //{
+        int index = 0;
+            gridView.setAdapter(new MNArticleImageAdapter(this, m_htmlList.get(index).getImageList()));
+
+            //APIレベルに応じて処理を分ける
+
+            newsTitle.setText(m_htmlList.get(index).getMainTitle());
+            if(Build.VERSION.RELEASE.startsWith("5"))
+            {
+                announcer.speak(m_htmlList.get(index).getMainContents(), TextToSpeech.QUEUE_FLUSH, null, null);
+            }else{
+                announcer.speak(m_htmlList.get(index).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
+            }
+       // }
+        /*if((nextIndex >= newsLimitNumber) || (nextIndex > articleCount))
         {
             releaseTts();
         }else {
@@ -162,11 +183,12 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
             newsTitle.setText(m_htmlList.get(nextIndex).getMainTitle());
             if(Build.VERSION.RELEASE.startsWith("5"))
             {
-                //announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null, null);
+                announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null, null);
             }else{
-                //announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
+                announcer.speak(m_htmlList.get(nextIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null);
             }
         }
+        */
     }
 
 
