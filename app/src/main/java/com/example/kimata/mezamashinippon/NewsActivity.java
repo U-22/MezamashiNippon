@@ -68,7 +68,7 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
         });
 
         //announcerの初期化
-        announcer = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+        /*announcer = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
                 if(i != TextToSpeech.ERROR)
@@ -76,7 +76,7 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
                     announcer.setLanguage(Locale.JAPAN);
                 }
             }
-        });
+        });*/
         //LoaderManagerの初期化
         getSupportLoaderManager().initLoader(0,null,this);
         //LoderManagerの実行
@@ -100,6 +100,17 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<ArrayList<MNHtml>> loader, ArrayList<MNHtml> htmlList)
     {
+        //announcerの初期化
+        announcer = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if(i != TextToSpeech.ERROR)
+                {
+                    announcer.setLanguage(Locale.JAPAN);
+                    readArticle();
+                }
+            }
+        });
         m_htmlList = htmlList;
         //記事数の取得
         articleCount = m_htmlList.size();
@@ -111,7 +122,7 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
             //TODO 何かメッセージをだす
             return;
         }
-        readArticle();
+        //readArticle();
         Log.d("load", "onLoadFinished: ");
     }
 

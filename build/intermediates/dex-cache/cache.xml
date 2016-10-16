@@ -40,14 +40,14 @@
         jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         revision="24.0.1"
-        sha1="938f32b11b9b501a165831f0577dc5e8d164af52">
+        sha1="d87df1b06af16a1aaa17286c5b5835ebb80bf01a">
         <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c8202c543da354613929af0e3ddadb9857ad431c/classes.dex" />
     </item>
     <item
         jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="24.0.1"
-        sha1="345228da4e1d6c240beaa85ce08d73b31689543b">
+        sha1="5692a9168dd067ee757ff52ace16381d2c22f8de">
         <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9c2770c0c795925f51d9358ac5c272bdd1210b38/classes.dex" />
     </item>
     <item

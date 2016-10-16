@@ -2,6 +2,7 @@ package com.example.kimata.mezamashinippon;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,46 +14,34 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class TestActivity extends AppCompatActivity {
     private Handler uihandler;
     private TextView result;
     private MNHtml myhtml;
     private MNSite targetSite;
+    private TextToSpeech ts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        result = (TextView)findViewById(R.id.result);
-        uihandler = new Handler();
         setSupportActionBar(toolbar);
 
-        targetSite = new MNSite("http://www.gizmodo.jp/");
-        targetSite.setStartIdentifier("リンゴマークが丸になっただけのiPhoneじ");
-        (new Thread(new Runnable() {
+        ts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener(){
             @Override
-            public void run() {
-                /*targetSite.findStartClassName("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
-                Log.d("sClassName", "sClassName: " + targetSite.getStartClassName());
-                final String temp = targetSite.generateMainContent("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");
-                //final String temp = targetSite.getHtml("http://www.gizmodo.jp/2016/10/google-pixel-hands-on.html");*/
-                MNHtml html = new MNHtml("http://gigazine.net/news/20161014-nikon-d5500a-star-photo/", "preface","cntimage");
-                html.generateMainContent();
-                final String temp = html.getMainContents();
-                html.getPicture();
-                uihandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        result.setText(temp);
-                    }
-                });
-                //Log.d("main", "main: " + targetSite.generateMainContent("http://gigazine.net/news/20161012-sns-police-surveillance/"));
+            public void onInit(int i)
+            {
+                if(i != TextToSpeech.ERROR)
+                {
+                    ts.setLanguage(Locale.UK);
+                    ts.speak("this is test", TextToSpeech.QUEUE_FLUSH, null, null);
+                }
             }
-        }
 
-        )).start();
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,5 +52,17 @@ public class TestActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onPause()
+    {
+        if(ts != null)
+        {
+            ts.stop();
+            ts.shutdown();
+        }
+        super.onPause();
+    }
+
 
 }
