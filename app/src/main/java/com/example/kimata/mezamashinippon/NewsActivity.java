@@ -1,6 +1,7 @@
 package com.example.kimata.mezamashinippon;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -151,6 +152,7 @@ public class NewsActivity extends FragmentActivity implements LoaderManager.Load
 
     private void readArticle(int nextIndex)
     {
+
         if((nextIndex >= newsLimitNumber) || (nextIndex > articleCount))
         {
             releaseTts();
