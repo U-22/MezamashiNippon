@@ -12,30 +12,27 @@ import java.util.Calendar;
  */
 public class MNAsyncHtmlLoader extends android.support.v4.content.AsyncTaskLoader<ArrayList<MNHtml>>{
 
-    private ArrayList<MNSite> m_siteList = new ArrayList<MNSite>();
+    private MNSite m_site;
     private ArrayList<MNHtml> m_htmlList = new ArrayList<MNHtml>();
 
-    public MNAsyncHtmlLoader(Context context, ArrayList<MNSite> siteList)
+    public MNAsyncHtmlLoader(Context context, MNSite site)
     {
         super(context);
-        m_siteList = siteList;
+        m_site = site;
     }
 
 
     @Override
     //TODO:ユーザーの設定を参照するようにする
     public ArrayList<MNHtml> loadInBackground(){
-        for(MNSite site : m_siteList)
-        {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(2016, 9, 13);
-            site.addNewArticle(calendar.getTime());
-            site.generateHtml();
-            m_htmlList.addAll(site.getHtmlList());
-        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2016, 9, 13);
+        m_site.addNewArticle(calendar.getTime());
+        m_site.generateHtml();
+        m_htmlList.addAll(m_site.getHtmlList());
         for(MNHtml html : m_htmlList)
         {
-            html.getPicture();
+            //html.getPicture();
             html.getMainTitle();
         }
         return m_htmlList;
