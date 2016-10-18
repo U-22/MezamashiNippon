@@ -5,14 +5,13 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-
-import java.util.ArrayList;
+import android.util.Log;
 
 /**
  * Created by umino on 16/10/17.
  */
 
-public class MNAsyncImageLoaderClass implements LoaderManager.LoaderCallbacks<ArrayList<Bitmap>>{
+public class MNAsyncImageLoaderClass implements LoaderManager.LoaderCallbacks<Boolean>{
     private MNLoaderCallbacks m_loaderCallbacks;
     private Context m_context;
     private MNHtml m_html;
@@ -22,23 +21,26 @@ public class MNAsyncImageLoaderClass implements LoaderManager.LoaderCallbacks<Ar
         m_loaderCallbacks = loaderCallbacks;
         m_context = context;
         m_html = html;
+        Log.d("init", "MNAsyncImageLoaderClass: コンストラクタ終了");
     }
 
     @Override
-    public Loader<ArrayList<Bitmap>> onCreateLoader(int id, Bundle args)
+    public Loader<Boolean> onCreateLoader(int id, Bundle args)
     {
-        return new MNAsyncImageLoader();
+        Log.d("imageloader", "onCreateLoader: ");
+        return new MNAsyncImageLoader(m_context, m_html);
     }
 
     @Override
-    public void onLoadFinished(Loader<ArrayList<Bitmap>> loader, ArrayList<Bitmap> bitmapList)
+    public void onLoadFinished(Loader<Boolean> loader, Boolean result)
     {
-        m_loaderCallbacks.MNAsyncImageLoaderCallbacks(bitmapList);
+        m_loaderCallbacks.MNAsyncImageLoaderCallbacks(result);
+        Log.d("imageLoader", "onLoadFinished: ");
     }
 
     @Override
-    public void onLoaderReset(Loader<ArrayList<Bitmap>> loader)
+    public void onLoaderReset(Loader<Boolean> loader)
     {
-        
+
     }
 }

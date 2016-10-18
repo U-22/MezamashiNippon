@@ -2,8 +2,10 @@ package com.example.kimata.mezamashinippon;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -37,6 +39,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
     private boolean endFlag;
     private int articleCount = 0;
     private int articleIndex = 0;
+    private int siteIndex = 0;
     private int newsLimitNumber;
     private GridView gridView;
     private TextView newsTitle;
@@ -44,6 +47,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
     private HashMap<String, String> myHash;
     private Bundle myBundle;
     private MNAsyncHtmlLoaderClass m_asyncHtmlLoaderClass;
+    private MNAsyncImageLoaderClass m_asyncImageLoaderClass;
 
     //スレッドID
     public static final int HTML_LOADER = 0;
@@ -97,9 +101,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         //getSupportLoaderManager().initLoader(0,null,this);
         //LoderManagerの実行
 
-        m_asyncHtmlLoaderClass = new MNAsyncHtmlLoaderClass(this, getApplicationContext(), m_siteList.get(0));
-        getSupportLoaderManager().initLoader(HTML_LOADER, null, m_asyncHtmlLoaderClass);
-
+        setAsyncHtmloLoaderClass();
     }
 
     @Override
@@ -123,41 +125,53 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
             return;
         }
         //announcerの初期化
-        announcer = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                if(i != TextToSpeech.ERROR)
-                {
-                    int result = announcer.setLanguage(Locale.JAPAN);
-                    //発話終了イベントリスナーを登録
-                    result = announcer.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                        @Override
-                        public void onStart(String s) {
+        if(announcer == null) {
+            announcer = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int i) {
+                    if (i != TextToSpeech.ERROR) {
+                        int result = announcer.setLanguage(Locale.JAPAN);
+                        //発話終了イベントリスナーを登録
+                        result = announcer.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                            @Override
+                            public void onStart(String s) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onDone(String s) {
-                            //次の記事を取得
-                            Log.d("読み上げ", "onDone: 読み上げ終了");
-                        }
+                            @Override
+                            public void onDone(String s) {
+                                //次の記事を取得
+                                Log.d("読み上げ", "onDone: 読み上げ終了");
+                                setAsyncImageLoaderClass();
+                            }
 
-                        @Override
-                        public void onError(String s) {
+                            @Override
+                            public void onError(String s) {
 
-                        }
-                    });
-                    readArticle();
+                            }
+                        });
+                        setAsyncImageLoaderClass();
+                        //readArticle();
+                    }
                 }
-            }
-        });
-        Log.d("load", "onLoadFinished: ");
+            });
+        }
+        Log.d("load", "htmlLoaderFinished: ");
     }
 
     @Override
-    public  void MNAsyncImageLoaderCallbacks()
+    public  void MNAsyncImageLoaderCallbacks(Boolean result)
     {
-
+        if(result != true)
+        {
+            //TODO 画像が取得できなかったことを表示する
+        }
+        readArticle();
+        if(isReadAllArticles() && !isReadAllSites())
+        {
+            setAsyncHtmloLoaderClass();
+        }
+        Log.d("load", "imageLoaderFinished: ");
     }
 
 
@@ -266,7 +280,54 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         }else{
             announcer.speak(m_htmlList.get(articleIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, myHash);
         }
+        articleIndex++;
     }
+
+    private void setAsyncImageLoaderClass()
+    {
+        if(m_asyncImageLoaderClass == null)
+        {
+            m_asyncImageLoaderClass = new MNAsyncImageLoaderClass(this, getApplicationContext(), m_htmlList.get(articleIndex));
+            getSupportLoaderManager().initLoader(IMAGE_LOADER, null, m_asyncImageLoaderClass);
+        }else{
+            m_asyncImageLoaderClass = new MNAsyncImageLoaderClass(this, getApplicationContext(), m_htmlList.get(articleIndex));
+            getSupportLoaderManager().restartLoader(IMAGE_LOADER, null, m_asyncImageLoaderClass);
+        }
+    }
+
+    private void setAsyncHtmloLoaderClass()
+    {
+        if(m_asyncHtmlLoaderClass == null)
+        {
+            m_asyncHtmlLoaderClass = new MNAsyncHtmlLoaderClass(this, getApplicationContext(), m_siteList.get(siteIndex));
+            getSupportLoaderManager().initLoader(HTML_LOADER, null, m_asyncHtmlLoaderClass);
+        }else{
+            m_asyncHtmlLoaderClass = new MNAsyncHtmlLoaderClass(this, getApplicationContext(), m_siteList.get(siteIndex));
+            getSupportLoaderManager().restartLoader(HTML_LOADER, null, m_asyncHtmlLoaderClass);
+        }
+    }
+
+    private boolean isReadAllArticles()
+    {
+        if(articleIndex >= articleCount)
+        {
+            articleIndex = 0;
+            siteIndex++;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isReadAllSites()
+    {
+        if(siteIndex >= m_siteList.size())
+        {
+            siteIndex = 0;
+            return true;
+        }
+        return false;
+    }
+
 
 
 }

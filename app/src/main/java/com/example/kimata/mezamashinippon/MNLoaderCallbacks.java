@@ -10,5 +10,5 @@ import java.util.ArrayList;
 
 public interface MNLoaderCallbacks {
     public void MNAsyncHtmlLoaderCallbacks(ArrayList<MNHtml> htmlList);
-    public void MNAsyncImageLoaderCallbacks(ArrayList<Bitmap> bitmapList);
+    public void MNAsyncImageLoaderCallbacks(Boolean result);
 }
