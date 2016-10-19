@@ -6,14 +6,17 @@
     android:orientation="vertical"
     tools:context="com.example.kimata.mezamashinippon.MainActivity"
     android:gravity="bottom"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="#FF009688">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="めざまし日本へようこそ"
         android:layout_marginBottom="350dp"
         android:textSize="30dp"
         android:textColor="#ffffff"
-        android:textStyle="normal|bold" />
+        android:textAlignment="center" />
 
     <Button
         android:layout_width="wrap_content"

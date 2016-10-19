@@ -3,6 +3,13 @@
     <string name="title_activity_test">SettingActivity</string>
     <string name="dialog_message">サイトの登録名を入力してください</string>
 
+    <string name="page0_title">チュートリアル 1</string>
+    <string name="page0_text1">　ようこそめざまし日本へ！</string>
+    <string name="page0_text2"> ホーム画面の下部のボタンから設定画面へ移動できます。まずは設定を行いましょう。</string>
+
+    <string name="page1_title">チュートリアル 2</string>
+    <string name="page1_text1">設定画面ではアラーム,ニュースの項目を設定できます。ここでまず参照するサイトを登録してください</string>
+
     //ニュース数選択ダイアログ用
     <string-array name="list">
         <item>1</item>

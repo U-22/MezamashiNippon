@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text=""
+        android:textSize = "@dimen/dialog_textSize"/>
+
+    <ImageView
+        android:id="@+id/page_img"
+        android:scaleType="fitCenter"
+        android:src="@drawable/scs_setting"
+        android:layout_width ="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>
