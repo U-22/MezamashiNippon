@@ -80,7 +80,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         final String webUrl = intent1.getStringExtra("url");
         final String articleUrl = intent1.getStringExtra("samplePageURL");
         final String webStartIdentifier = intent1.getStringExtra("startArticle");
-        final String webEndIdentifier = intent1.getStringExtra("endArticle");
         if (webUrl != null ){
             urlList.add(webUrl);
             //MNSiteを生成しリストに追加
@@ -94,6 +93,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                     m_siteList.add(newSite);
                 }
             })).start();
+            Toast.makeText(SettingActivity.this,
+                    "ニュースサイトを追加しました。", Toast.LENGTH_SHORT).show();
         }
         // NullPointerException防止の先頭要素を削除
         urlList.removeAll(Collections.singletonList("ここに登録したサイトのURLが表示されます"));

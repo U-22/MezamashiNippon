@@ -1,14 +1,20 @@
 <resources>
+    <string name="main">目覚まし日本へようこそ</string>
+    <string name="manual"><u>目覚まし日本とは？</u></string>
+
     <string name="app_name">MezamashiNippon</string>
     <string name="title_activity_test">SettingActivity</string>
     <string name="dialog_message">サイトの登録名を入力してください</string>
 
-    <string name="page0_title">チュートリアル 1</string>
-    <string name="page0_text1">　ようこそめざまし日本へ！</string>
-    <string name="page0_text2"> ホーム画面の下部のボタンから設定画面へ移動できます。まずは設定を行いましょう。</string>
+    <string name="page0_title">チュートリアル 1/3 </string>
+    <string name="page0_text1">　ようこそめざまし日本へ！\n\nまずは設定を行いましょう。\n\nホーム画面の下部のボタンから設定画面へ移動できます。</string>
 
-    <string name="page1_title">チュートリアル 2</string>
-    <string name="page1_text1">設定画面ではアラーム,ニュースの項目を設定できます。ここでまず参照するサイトを登録してください</string>
+
+    <string name="page1_title">チュートリアル 2/3</string>
+    <string name="page1_text1">設定画面ではアラーム,ニュースの項目を設定できます。\n\nアラームは時間を、ニュースは参照するサイトを登録してください</string>
+    
+    <string name="page2_title">チュートリアル 3/3</string>
+    <string name="page2_text1">以上でチュートリアルは終了です。\n\nでは早速使ってみましょう！\n\n　右上のボタンで閉じてください。</string>
 
     //ニュース数選択ダイアログ用
     <string-array name="list">
