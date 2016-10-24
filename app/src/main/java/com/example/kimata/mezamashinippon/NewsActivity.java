@@ -315,7 +315,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
 
     private boolean isReadAllArticles()
     {
-        if(articleIndex >= articleCount)
+        if(articleIndex > articleCount)
         {
             articleIndex = 0;
             siteIndex++;
@@ -326,7 +326,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
 
     private boolean isReadAllSites()
     {
-        if(siteIndex >= m_siteList.size())
+        if(siteIndex > m_siteList.size())
         {
             siteIndex = 0;
             return true;

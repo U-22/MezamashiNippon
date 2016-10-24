@@ -119,7 +119,7 @@ public class MNSite {
     }
 
     //新しく追加された記事を追加
-    void addNewArticle(Date baseDate)
+    void addNewArticle(int newsLimitNumber)
     {
         try {
             URL url = new URL(m_rssUr);
@@ -151,7 +151,12 @@ public class MNSite {
             //jsoupを用いてパース
             Document targetDoc = Jsoup.connect(m_rssUr).get();
             Elements items = targetDoc.select("item");
+            int counter = 0;
             for (Element element : items){
+                if(counter > newsLimitNumber)
+                {
+                    break;
+                }
                 Date date = new Date();
                 if(isPubDate)
                 {
@@ -160,10 +165,8 @@ public class MNSite {
                     date = MNUtil.convertRssDate("dc|date",element.select("dc|date").text());
                 }
                 Log.d("date", date.toString());
-                if(date.after(baseDate))
-                {
-                    m_newArticleList.add(element.select("link").text());
-                }
+                m_newArticleList.add(element.select("link").text());
+                counter++;
             }
         }catch (MalformedURLException e){
             e.printStackTrace();
