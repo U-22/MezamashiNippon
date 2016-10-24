@@ -6,4 +6,5 @@ package com.example.kimata.mezamashinippon;
 public final class MNStringResources {
     private MNStringResources(){}
     public static final String SETTING_FILE_NAME = "MNSiteList";
+    public static final String PACKAGE = "com.example.kimata.mezamashinippon";
 }

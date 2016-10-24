@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
     <application
         android:allowBackup="true"
@@ -40,6 +41,12 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+        <receiver android:name=".MNBroadcastReciver">
+            <intent-filter>
+                <action android:name="NewsAction"></action>
+            </intent-filter>
+        </receiver>
+        <service android:name=".MNService"></service>
     </application>
 
 </manifest>

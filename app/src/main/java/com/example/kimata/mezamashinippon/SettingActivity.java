@@ -62,6 +62,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     public ArrayList<String> urlList = new ArrayList<>();
     private ArrayList<MNSite> m_siteList = new ArrayList<>();
     private Document m_settingFile;
+    private AlarmManager m_alarmManager;
 
 
     @Override
@@ -147,7 +148,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                     return false;
                 }
                 // 項目を削除
-                //TODO:削除した項目をsharedpreferenceから削除する
                 adapter.remove(item);
                 urlList.remove(position);
                 list.setAdapter(adapter);
@@ -180,13 +180,18 @@ public class SettingActivity extends Activity implements View.OnClickListener {
 
             // 設定時刻になったらニュース画面に遷移する設定
             Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
             calendar.set(Calendar.HOUR, alarmHour);
             calendar.set(Calendar.MINUTE, alarmMin);
-            Intent intent = new Intent(getApplicationContext(), NewsActivity.class);
-            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(),0, intent, 0);
+            if(calendar.getTimeInMillis() < System.currentTimeMillis())
+            {
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            }
+            Intent intent = new Intent(getApplicationContext(), MNBroadcastReciver.class);
+            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(),0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             // セットする
-            AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-            am.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+            m_alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            m_alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
 
 
             String time = String.format("%02d : %02d", hourOfDay, minute);
