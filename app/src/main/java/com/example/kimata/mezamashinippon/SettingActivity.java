@@ -46,7 +46,6 @@ import java.util.Collections;
 
 /** public変数
  * 　ArrayList<String> urlList : 登録されているurlのリスト
- * 　boolean alarmSet : アラームを鳴らすか鳴らさないか
  * 　String alarmHour :　アラームの時間
  * 　String alarmTime :　アラームの分
  * 　int nNumber : 表示するニュース数
@@ -54,7 +53,6 @@ import java.util.Collections;
 
 public class SettingActivity extends Activity implements View.OnClickListener {
     TimePickerDialog dialog;
-    public boolean alarmSet;
     public int alarmHour;
     public int alarmMin;
     public String alarmTime;
@@ -203,8 +201,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
 
     private void saveSettingData() {
         // アラームボタン設定の保存
-        Switch s = (Switch) findViewById(R.id.switch1);
-        alarmSet = s.isChecked();
 
         // アラーム時刻保存
         TextView textView = (TextView)findViewById(R.id.timeDialog);
@@ -220,7 +216,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sp.edit();
         // データを登録する
-        editor.putBoolean("AlarmSwitch_key", alarmSet);
         editor.putString("AlarmTime_key", alarmTime);
         editor.putInt("AlarmHour_key", alarmHour);
         editor.putInt("AlarmMin_key", alarmMin);
@@ -250,9 +245,6 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     private void loadSettingData() {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        Switch s = (Switch) findViewById(R.id.switch1);
-        s.setChecked(sp.getBoolean("AlarmSwitch_key", false));
-        alarmSet = s.isChecked();
 
         TextView textView = (TextView) findViewById(R.id.timeDialog);
         textView.setText(sp.getString("AlarmTime_key", "時刻"));

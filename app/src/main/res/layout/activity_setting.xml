@@ -34,26 +34,9 @@
                 android:textSize="20dp" />
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="57dp"
-                android:gravity="center_vertical"
-                android:text="   アラーム"
-                android:textColor="#000000"
-                android:textSize="20dp" />
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/switch1"
-                android:layout_gravity="right"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="-52dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="57dp"
-                android:text="   設定時刻"
+                android:text="　 設定時刻"
                 android:id="@+id/time_setting"
                 android:textSize="20dp"
                 android:textColor="#000000"
@@ -92,7 +75,7 @@
                 android:layout_height="70dp"
                 android:layout_weight="0.10"
                 android:gravity="center_vertical"
-                android:text="   表示ニュース数"
+                android:text="　 1サイトあたりのニュース数"
                 android:textColor="#000000"
                 android:textSize="20dp"
                 android:layout_marginTop="-10dp" />
@@ -101,10 +84,10 @@
                 android:id="@+id/newsNumber"
                 android:layout_width="57dp"
                 android:layout_height="50dp"
-                android:layout_gravity="right"
                 android:entries="@array/list"
                 android:layout_marginTop="-60dp"
-                android:layout_marginRight="20dp" />
+                android:layout_marginRight="20dp"
+                android:layout_gravity="right|center_vertical" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -112,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.07"
                 android:gravity="center_vertical"
-                android:text="   参照ニュースサイト"
+                android:text="　 参照ニュースサイト"
                 android:textColor="#000000"
                 android:textSize="20dp"
                 android:layout_marginTop="10dp" />
@@ -138,7 +121,7 @@
 
             <ListView
                 android:layout_width="370dp"
-                android:layout_height="149dp"
+                android:layout_height="164dp"
                 android:id="@+id/url_list"
                 android:layout_gravity="center" />
 
@@ -146,10 +129,9 @@
                 android:id="@+id/save_setting"
                 android:layout_width="74dp"
                 android:layout_height="70dp"
-                android:layout_gravity="center_horizontal|bottom"
+                android:layout_gravity="bottom|center_horizontal"
                 android:src="@drawable/ic_check_circle_white_24dp"
-                app:backgroundTint="#0ca5ba"
-                android:layout_marginBottom="50dp" />
+                app:backgroundTint="#0ca5ba" />
         </LinearLayout>
 
     </ScrollView>
