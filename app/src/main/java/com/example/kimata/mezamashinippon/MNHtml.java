@@ -147,7 +147,6 @@ public class MNHtml {
     //本文取得関数
     void generateMainContent()
     {
-        //<strong("[^"]*"|'[^']*'|[^'">])*>|</strong>
         //正規表現を用いて、邪魔なタグを取り除く
         String html = m_targetDoc.html();
         String regex = "<strong(\"[^\"]*\"|'[^']*'|[^'\">])*>|</strong>|<a(\"[^\"]*\"|'[^']*'|[^'\">])*>|</a>|<b(\"[^\"]*\"|'[^']*'|[^'\">])*>|</b>";

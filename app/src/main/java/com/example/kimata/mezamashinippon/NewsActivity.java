@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -49,6 +52,8 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
     private Bundle myBundle;
     private MNAsyncHtmlLoaderClass m_asyncHtmlLoaderClass;
     private MNAsyncImageLoaderClass m_asyncImageLoaderClass;
+    private MediaPlayer m_player;
+    private AudioManager m_manager;
 
     //スレッドID
     public static final int HTML_LOADER = 0;
@@ -88,26 +93,11 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
             @Override
             public void onClick(View v)
             {
-                articleIndex++;
-                readArticle();
+                audioStop();
             }
         });
-
-        //announcerの初期化
-        /*announcer = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                if(i != TextToSpeech.ERROR)
-                {
-                    announcer.setLanguage(Locale.JAPAN);
-                }
-            }
-        });*/
-        //LoaderManagerの初期化
-        //getSupportLoaderManager().initLoader(0,null,this);
-        //LoderManagerの実行
-
-        setAsyncHtmloLoaderClass();
+        audioSetup();
+        //setAsyncHtmloLoaderClass();
     }
 
     @Override
@@ -157,7 +147,6 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
                             }
                         });
                         setAsyncImageLoaderClass();
-                        //readArticle();
                     }
                 }
             });
@@ -179,67 +168,6 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         }
         Log.d("load", "imageLoaderFinished: ");
     }
-
-
-
-    /*@Override
-    public Loader<ArrayList<MNHtml>> onCreateLoader(int id, Bundle args)
-    {
-        return new MNAsyncHtmlLoader(this, m_siteList.get(0));
-    }
-
-    @Override
-    public void onLoadFinished(Loader<ArrayList<MNHtml>> loader, ArrayList<MNHtml> htmlList)
-    {
-        m_htmlList = htmlList;
-        //記事数の取得
-        articleCount = m_htmlList.size();
-        if(articleCount == 0)
-        {
-            Intent intent = new Intent();
-            intent.setClassName("com.example.kimata.mezamashinippon","com.example.kimata.mezamashinippon.MainActivity");
-            startActivity(intent);
-            //TODO 何かメッセージをだす
-            return;
-        }
-        //announcerの初期化
-        announcer = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-                if(i != TextToSpeech.ERROR)
-                {
-                    int result = announcer.setLanguage(Locale.JAPAN);
-                    //発話終了イベントリスナーを登録
-                    result = announcer.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                        @Override
-                        public void onStart(String s) {
-
-                        }
-
-                        @Override
-                        public void onDone(String s) {
-                            //次の記事を取得
-                            Log.d("読み上げ", "onDone: 読み上げ終了");
-                        }
-
-                        @Override
-                        public void onError(String s) {
-
-                        }
-                    });
-                    readArticle();
-                }
-            }
-        });
-        Log.d("load", "onLoadFinished: ");
-    }
-
-    @Override
-    public void onLoaderReset(Loader<ArrayList<MNHtml>> loader)
-    {
-
-    }*/
-
 
     private void loadMNSiteList(){
         SharedPreferences sp = getSharedPreferences(MNStringResources.SETTING_FILE_NAME, MODE_PRIVATE);
@@ -332,6 +260,25 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
             return true;
         }
         return false;
+    }
+
+    //アラームなので，音量を最大にして再生
+    private void audioSetup()
+    {
+        m_player = MediaPlayer.create(this, R.raw.alarm);
+        m_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        m_manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        int maxVol = m_manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        m_manager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVol, 0);
+        m_player.setLooping(true);
+        m_player.start();
+    }
+
+    private void audioStop()
+    {
+        m_player.stop();
+        m_player.release();
+        setAsyncHtmloLoaderClass();
     }
 
 
