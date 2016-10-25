@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
             //チュートリアルダイアログの表示
             tutorialDialog(findViewById(R.id.tutorial_text));
         }
+        AppLaunchChecker.onActivityCreate(this);
 
         button_debug.setOnClickListener(new View.OnClickListener() {
             @Override
