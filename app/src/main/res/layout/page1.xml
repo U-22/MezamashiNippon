@@ -28,16 +28,15 @@
         android:text="@string/page1_text1"
         android:textSize="@dimen/dialog_textSize"
         android:layout_marginTop="50dp"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal" />
+        android:gravity="center" />
 
     <TextView
-        android:text="○ ● ○"
+        android:text="@string/page_signal1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView9"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="10dp"
-        android:textSize="20sp" />
+        android:textSize="@dimen/page_position" />
 
 </FrameLayout>

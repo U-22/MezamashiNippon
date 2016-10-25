@@ -10,64 +10,66 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="false"
         android:background="#ffffff"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/linearlayout01">
+            android:id="@+id/linearlayout01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="   アラーム"
+                android:text="@string/alarm_setting"
                 android:id="@+id/textView5"
                 android:layout_weight="0.10"
-                android:textColor="@color/accent_material_light"
+                android:textColor="#009688"
                 android:layout_marginTop="20dp"
                 android:textStyle="bold"
-                android:textSize="20dp" />
+                android:textSize="@dimen/setting_textSize"
+                android:layout_marginStart="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="57dp"
-                android:text="　 設定時刻"
+                android:text="@string/alarm_time"
                 android:id="@+id/time_setting"
-                android:textSize="20dp"
                 android:textColor="#000000"
                 android:background="@drawable/border"
                 android:onClick="true"
-                android:gravity="center_vertical"
-                android:layout_marginTop="5dp" />
+                android:textSize="@dimen/setting_textSize"
+                android:gravity="left|center_vertical"
+                android:layout_marginStart="20dp" />
 
             <TextView
                 android:id="@+id/timeDialog"
                 android:layout_width="83dp"
                 android:layout_height="wrap_content"
-                android:gravity="center|center_vertical|center_horizontal"
-                android:text="時刻"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/time"
                 android:textColor="#999999"
                 android:textStyle="italic"
                 android:layout_marginTop="-40dp"
                 android:layout_gravity="right"
-                android:layout_marginRight="15dp"
-                android:textSize="20dp" />
+                android:layout_marginEnd="15dp"
+                android:textSize="@dimen/setting_textSize" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="   ニュース"
+                android:text="@string/news_setting"
                 android:id="@+id/textView6"
                 android:layout_weight="0.10"
-                android:textColor="@color/accent_material_light"
+                android:textColor="#FF009688"
                 android:layout_marginTop="30dp"
                 android:textStyle="bold"
-                android:textSize="20dp" />
+                android:textSize="@dimen/setting_textSize"
+                android:layout_marginStart="20sp"/>
 
             <TextView
                 android:id="@+id/textView4"
@@ -75,10 +77,11 @@
                 android:layout_height="70dp"
                 android:layout_weight="0.10"
                 android:gravity="center_vertical"
-                android:text="　 1サイトあたりのニュース数"
+                android:text="@string/nNumber"
                 android:textColor="#000000"
-                android:textSize="20dp"
-                android:layout_marginTop="-10dp" />
+                android:layout_marginTop="-10dp"
+                android:textSize="@dimen/setting_textSize"
+                android:layout_marginStart="20sp"/>
 
             <Spinner
                 android:id="@+id/newsNumber"
@@ -86,7 +89,7 @@
                 android:layout_height="50dp"
                 android:entries="@array/list"
                 android:layout_marginTop="-60dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginEnd="10dp"
                 android:layout_gravity="right|center_vertical" />
 
             <TextView
@@ -95,10 +98,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.07"
                 android:gravity="center_vertical"
-                android:text="　 参照ニュースサイト"
+                android:text="@string/news_site"
                 android:textColor="#000000"
-                android:textSize="20dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/setting_textSize"
+                android:layout_marginStart="20sp"/>
 
             <ImageButton
                 android:id="@+id/web_botton"
@@ -108,32 +112,39 @@
                 android:layout_gravity="right"
                 android:background="@drawable/border2"
                 android:layout_marginTop="-33dp"
-                android:layout_marginRight="30dp" />
+                android:layout_marginEnd="30dp" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="リスト長押しで削除できます。"
+                android:text="@string/remove_list"
                 android:id="@+id/textView"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:textSize="14sp" />
 
             <ListView
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="164dp"
                 android:id="@+id/url_list"
-                android:layout_gravity="center" />
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/save_setting"
-                android:layout_width="74dp"
-                android:layout_height="70dp"
-                android:layout_gravity="bottom|center_horizontal"
-                android:src="@drawable/ic_check_circle_white_24dp"
-                app:backgroundTint="#0ca5ba" />
         </LinearLayout>
 
     </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/save_setting"
+        android:layout_gravity="bottom|center_horizontal"
+        android:src="@drawable/ic_check_circle_white_24dp"
+        app:backgroundTint="#0ca5ba"
+        android:layout_marginBottom="20dp"
+        app:fabSize="normal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
 </RelativeLayout>

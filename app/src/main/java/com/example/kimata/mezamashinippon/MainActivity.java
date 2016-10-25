@@ -80,6 +80,7 @@ public class MainActivity extends Activity {
         list.add(1);
         list.add(2);
         list.add(3);
+        list.add(4);
 
         //ViewPagerにPagerAdapterをセット
         DialogPagerAdapter adapter = new DialogPagerAdapter(this, list);
