@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setClassName("com.example.kimata.mezamashinippon", "com.example.kimata.mezamashinippon.NewsActivity");
+                intent.putExtra("STATE",MNStringResources.ACTIVITY_START_BY_BUTTON);
                 startActivity(intent);
             }
         });

@@ -7,4 +7,6 @@ public final class MNStringResources {
     private MNStringResources(){}
     public static final String SETTING_FILE_NAME = "MNSiteList";
     public static final String PACKAGE = "com.example.kimata.mezamashinippon";
+    public static final int ACTIVITY_START_BY_BUTTON = 0;
+    public static final int ACTIVITY_START_BY_ALARM = 1;
 }

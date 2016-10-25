@@ -179,13 +179,13 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             // 設定時刻になったらニュース画面に遷移する設定
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.add(Calendar.SECOND, 5);
-            /*calendar.set(Calendar.HOUR, alarmHour);
+            //calendar.add(Calendar.SECOND, 5);
+            calendar.set(Calendar.HOUR, alarmHour);
             calendar.set(Calendar.MINUTE, alarmMin);
             if(calendar.getTimeInMillis() < System.currentTimeMillis())
             {
                 calendar.add(Calendar.DAY_OF_YEAR, 1);
-            }*/
+            }
             Intent intent = new Intent(getApplicationContext(), MNBroadcastReciver.class);
             PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(),0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             // セットする

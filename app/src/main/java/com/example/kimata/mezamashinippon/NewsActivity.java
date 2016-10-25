@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -54,6 +56,8 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
     private MNAsyncImageLoaderClass m_asyncImageLoaderClass;
     private MediaPlayer m_player;
     private AudioManager m_manager;
+    private RelativeLayout m_alarmStopLayout;
+    private Button m_stopButton;
 
     //スレッドID
     public static final int HTML_LOADER = 0;
@@ -64,46 +68,58 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news);
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        //各種設定
         //フラグの初期化
         endFlag = false;
         //SPからsiteリストの復元
         loadMNSiteList();
         //設定データの取得
         loadSettingData();
-        //gridviewの生成
-        gridView = (GridView)findViewById(R.id.articleImage);
-        //タイトルの初期化
-        newsTitle = (TextView)findViewById(R.id.newsTitle);
         //ttsに渡すhashmapの初期化
         myHash = new HashMap<>();
         myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "announcer");
         //ttsに渡すbundleの初期化(APILV 22)
         myBundle = new Bundle();
         myBundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
-
-        buttonDebug = (Button)findViewById(R.id.button_debug);
-        buttonDebug.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v)
-            {
-                audioStop();
-            }
-        });
-        audioSetup();
-        //setAsyncHtmloLoaderClass();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        //起動方法の取得
+        Intent current = getIntent();
+        int state = current.getIntExtra("STATE", 0);
+        if(state == MNStringResources.ACTIVITY_START_BY_ALARM)
+        {
+            //アラームから起動
+            setupAlarmStopLayout();
+            audioSetup();
+        }else if(state == MNStringResources.ACTIVITY_START_BY_BUTTON)
+        {
+            //ボタンから起動
+            setContentView(R.layout.activity_news);
+            //gridviewの生成
+            gridView = (GridView)findViewById(R.id.articleImage);
+            //タイトルの初期化
+            newsTitle = (TextView)findViewById(R.id.newsTitle);
+            buttonDebug = (Button)findViewById(R.id.button_debug);
+            buttonDebug.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v)
+                {
+                    audioStop();
+                }
+            });
+            setAsyncHtmloLoaderClass();
+        }
+        //setupAlarmStopLayout();
+        //setContentView(R.layout.activity_news);
     }
 
     @Override
     public void onPause()
     {
         releaseTts();
+        audioStop();
         super.onPause();
     }
 
@@ -205,8 +221,6 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         }
         gridView.setAdapter(new MNArticleImageAdapter(this, m_htmlList.get(articleIndex).getImageList()));
 
-        //TODO：APIレベルに応じて処理を分ける
-
         newsTitle.setText(m_htmlList.get(articleIndex).getMainTitle());
         if(Build.VERSION.RELEASE.startsWith("5"))
         {
@@ -276,9 +290,59 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
 
     private void audioStop()
     {
-        m_player.stop();
-        m_player.release();
-        setAsyncHtmloLoaderClass();
+        if(m_player != null) {
+            m_player.stop();
+            m_player.release();
+            m_player = null;
+        }
+    }
+
+    private void changeLyaout()
+    {
+        setContentView(R.layout.activity_news);
+        //gridviewの生成
+        gridView = (GridView)findViewById(R.id.articleImage);
+        //タイトルの初期化
+        newsTitle = (TextView)findViewById(R.id.newsTitle);
+        buttonDebug = (Button)findViewById(R.id.button_debug);
+        buttonDebug.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                audioStop();
+            }
+        });
+    }
+
+    private void setupAlarmStopLayout()
+    {
+        //リレイティブレイアウトの設定
+        m_alarmStopLayout = new RelativeLayout(this);
+        m_alarmStopLayout.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT
+        ));
+        setContentView(m_alarmStopLayout);
+        m_stopButton = new Button(this);
+        m_stopButton.setText("STOP!");
+        m_stopButton.setLayoutParams(new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT
+        ));
+        m_stopButton.setBackgroundColor(Color.parseColor("#FF009688"));
+        //TODO: 画面の大きさに合わせる
+        m_stopButton.setTextSize(50);
+        m_stopButton.setTextColor(Color.parseColor("#ffffff"));
+        m_stopButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    audioStop();
+                    changeLyaout();
+                    setAsyncHtmloLoaderClass();
+                }
+            }
+        );
+        m_alarmStopLayout.addView(m_stopButton);
     }
 
 

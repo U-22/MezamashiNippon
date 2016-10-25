@@ -16,6 +16,7 @@ public class MNBroadcastReciver extends BroadcastReceiver {
         Intent news = new Intent();
         news.setClassName(MNStringResources.PACKAGE, MNStringResources.PACKAGE + ".NewsActivity");
         news.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        news.putExtra("STATE", MNStringResources.ACTIVITY_START_BY_ALARM);
         context.startActivity(news);
         Log.d("MNBroadcastReciver", "onReceive: ");
     }

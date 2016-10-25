@@ -40,7 +40,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="false"
-        android:text="ここにニュースのタイトルが表示されます"
+        android:text="記事を取得しています．．．"
         android:background="@drawable/news_title_bg"
         android:textColor="#000000"
         android:textStyle="bold"
