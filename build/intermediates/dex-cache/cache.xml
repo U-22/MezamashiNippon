@@ -79,7 +79,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="59bc4a4c5e4d1e199fa4d1621ddd71892de17e6e">
+        sha1="386724b08275dc7ffaf2b2daf30b45d94ad1cdc2">
         <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c8202c543da354613929af0e3ddadb9857ad431c/classes.dex" />
     </item>
     <item
@@ -88,7 +88,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="a2ceb1b2cbf458473e771c4f9f7d23c90856e801">
+        sha1="110cb67eda176b9cfa7c1241867a81a1284e7496">
         <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9c2770c0c795925f51d9358ac5c272bdd1210b38/classes.dex" />
     </item>
     <item

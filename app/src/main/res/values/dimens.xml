@@ -4,4 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="dialog_textSize">18sp</dimen>
+    <dimen name="setting_textSize">20sp</dimen>
+    <dimen name="remove_textSize">14sp</dimen>
+    <dimen name="page_position">10sp</dimen>
+    <dimen name="news_time">30sp</dimen>
+    <dimen name="news_title">25sp</dimen>
 </resources>

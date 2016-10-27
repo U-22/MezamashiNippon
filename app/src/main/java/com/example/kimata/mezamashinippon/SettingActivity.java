@@ -226,6 +226,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         editor.putString("Url_key", json);
 
         editor.commit();
+        editor.clear().commit();
 
         saveMNSiteList();
     }

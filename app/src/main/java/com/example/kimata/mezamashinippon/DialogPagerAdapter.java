@@ -2,18 +2,15 @@ package com.example.kimata.mezamashinippon;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ *　チュートリアルダイアログのアダプタ
  * Created by kimata on 2016/10/19.
  */
 
@@ -47,7 +44,13 @@ public class DialogPagerAdapter extends PagerAdapter {
             // コンテナに追加
             container.addView(view);
             return view;
+        } else if (position == 3) {
+            FrameLayout view = (FrameLayout) inflater.inflate(R.layout.page3, null);
+            // コンテナに追加
+            container.addView(view);
+            return view;
         }
+
         return false;
     }
 

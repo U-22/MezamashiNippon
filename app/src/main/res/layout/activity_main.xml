@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context="com.example.kimata.mezamashinippon.MainActivity"
-    android:gravity="bottom"
-    android:weightSum="1"
     android:background="#FF009688">
 
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main"
-        android:layout_marginBottom="200dp"
-        android:textSize="30dp"
-        android:textColor="#ffffff"
-        android:textAlignment="center" />
+        android:text="ニュース！"
+        android:id="@+id/button_debug"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp" />
+
+    <ImageButton
+        android:layout_width="103dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_setting"
+        android:src="@drawable/ic_settings_black_24dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/shape_rounded_corners_10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
+
 
     <TextView
         android:text="@string/manual"
@@ -24,29 +33,26 @@
         android:layout_height="wrap_content"
         android:id="@+id/tutorial_text"
         android:onClick="tutorialDialog"
-        android:gravity="center_horizontal"
+        android:gravity="center_vertical|center_horizontal"
         android:textStyle="normal|italic"
         android:textColor="#ffffff"
         android:textSize="20sp"
         android:textAllCaps="true"
         android:clickable="true"
-        android:layout_marginBottom="100dp"
         android:layout_gravity="center_horizontal"
+        android:layout_centerInParent="true"
         android:background="@drawable/clickable_border" />
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
+        android:id="@+id/main_text"
         android:layout_height="wrap_content"
-        android:text="ニュース！"
-        android:id="@+id/button_debug"
-        android:layout_gravity="center_horizontal" />
+        android:text="@string/main"
+        android:textSize="30sp"
+        android:textColor="#ffffff"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp" />
 
-    <ImageButton
-        android:layout_width="103dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_setting"
-        android:src="@drawable/ic_settings_black_24dp"
-        android:layout_marginBottom="36dp"
-        android:background="@drawable/shape_rounded_corners_10dp"
-        android:layout_gravity="center|bottom" />
-</LinearLayout>
+
+</RelativeLayout>
