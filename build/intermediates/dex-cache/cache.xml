@@ -3,39 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.1.1/jars/libs/internal_impl-24.1.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="f78c2f395cb096f9dc1dc07e729922b8fcd3c4f5">
-        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.1.1_44d63e2cd6dee3f692154840195c3a05635ffb76/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="b0590509810fdb7cc8633e770aad9b38ab31bb74">
-        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c8202c543da354613929af0e3ddadb9857ad431c/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/umino/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.4/695b63d702f505b9b916e02272e3b6381bade7f/gson-2.4.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
         sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
         <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.4_ed7ad932797a262642103ccaf448c4b71a32b5d5/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="56f4264c6a717b75ca94a44f8a098083ff0a52ac">
-        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9c2770c0c795925f51d9358ac5c272bdd1210b38/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -75,15 +48,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.1.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="1256c10604bb098490eab070d76754ac5ceab35c">
-        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.1.1_8704f298b503fa33dcf6932db37919419d3e0201/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.1.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -99,6 +63,42 @@
         revision="24.0.1"
         sha1="e195bd694d5389acfba27ff4fdfa64c4c65b2c05">
         <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-24.1.1_55a9fb51cc13402881c279dafc2e8007f73861de/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.1.1/jars/libs/internal_impl-24.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="f78c2f395cb096f9dc1dc07e729922b8fcd3c4f5">
+        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.1.1_44d63e2cd6dee3f692154840195c3a05635ffb76/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="59bc4a4c5e4d1e199fa4d1621ddd71892de17e6e">
+        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c8202c543da354613929af0e3ddadb9857ad431c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="a2ceb1b2cbf458473e771c4f9f7d23c90856e801">
+        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9c2770c0c795925f51d9358ac5c272bdd1210b38/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="1256c10604bb098490eab070d76754ac5ceab35c">
+        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.1.1_8704f298b503fa33dcf6932db37919419d3e0201/classes.dex" />
     </item>
     <item
         is-multidex="true"

@@ -62,8 +62,6 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
     //スレッドID
     public static final int HTML_LOADER = 0;
     public static final int IMAGE_LOADER = 1;
-    //debug用
-    private Button buttonDebug;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,14 +99,6 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
             gridView = (GridView)findViewById(R.id.articleImage);
             //タイトルの初期化
             newsTitle = (TextView)findViewById(R.id.newsTitle);
-            buttonDebug = (Button)findViewById(R.id.button_debug);
-            buttonDebug.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v)
-                {
-                    audioStop();
-                }
-            });
             setAsyncHtmloLoaderClass();
         }
         //setupAlarmStopLayout();
@@ -304,14 +294,6 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         gridView = (GridView)findViewById(R.id.articleImage);
         //タイトルの初期化
         newsTitle = (TextView)findViewById(R.id.newsTitle);
-        buttonDebug = (Button)findViewById(R.id.button_debug);
-        buttonDebug.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v)
-            {
-                audioStop();
-            }
-        });
     }
 
     private void setupAlarmStopLayout()
