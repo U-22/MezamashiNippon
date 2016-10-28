@@ -49,6 +49,12 @@ public class DialogPagerAdapter extends PagerAdapter {
             // コンテナに追加
             container.addView(view);
             return view;
+
+        } else if (position == 4) {
+            FrameLayout view = (FrameLayout) inflater.inflate(R.layout.page4, null);
+            // コンテナに追加
+            container.addView(view);
+            return view;
         }
 
         return false;
