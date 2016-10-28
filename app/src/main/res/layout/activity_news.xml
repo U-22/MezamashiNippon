@@ -30,22 +30,8 @@
         android:clickable="true"
         android:fastScrollAlwaysVisible="true"
         android:background="@drawable/border"
-        android:layout_below="@+id/textClock"
         android:textSize="30sp"
         android:layout_height="350dp">
     </GridView>
 
-    <TextClock
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textClock"
-        android:timeZone="GMT+900"
-        android:format24Hour="HH:mm"
-        android:textColor="#0caf8e"
-        android:textStyle="normal|bold"
-        android:textSize="@dimen/news_time"
-        android:background="#ffffff"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp" />
 </RelativeLayout>
