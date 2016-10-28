@@ -25,12 +25,14 @@ public class MNUtil {
         SimpleDateFormat pubDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
         SimpleDateFormat dc_DateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz", Locale.ENGLISH);
         try{
-            switch (tag){
-                case "pubDate":
-                    return pubDateFormat.parse(text);
-                case "dc|date":
-                    return dc_DateFormat.parse(text);
+            if(tag.equals("pubDate"))
+            {
+                return pubDateFormat.parse(text);
+            }else if(tag.equals("dc|date"))
+            {
+                return dc_DateFormat.parse(text);
             }
+
         }catch (ParseException e){
             e.printStackTrace();
             return null;

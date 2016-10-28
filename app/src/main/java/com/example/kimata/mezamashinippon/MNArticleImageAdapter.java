@@ -9,7 +9,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.Objects;
+//import java.util.Objects;
 
 /**
  * Created by umino on 16/10/09.
