@@ -74,7 +74,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         //設定データの取得
         loadSettingData();
         //ttsに渡すhashmapの初期化
-        myHash = new HashMap<>();
+        myHash = new HashMap<String, String>();
         myHash.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "announcer");
         //ttsに渡すbundleの初期化(APILV 22)
         myBundle = new Bundle();
@@ -134,7 +134,15 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
                     if (i != TextToSpeech.ERROR) {
                         int result = announcer.setLanguage(Locale.JAPAN);
                         //発話終了イベントリスナーを登録
-                        result = announcer.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                        result = announcer.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
+                            @Override
+                            public void onUtteranceCompleted(String utteranceId) {
+                                //次の記事を取得
+                                Log.d("読み上げ", "onDone: 読み上げ終了");
+                                setAsyncImageLoaderClass();
+                            }
+                        });
+                        /*result = announcer.setOnUtteranceProgressListener(new UtteranceProgressListener() {
                             @Override
                             public void onStart(String s) {
 
@@ -151,7 +159,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
                             public void onError(String s) {
 
                             }
-                        });
+                        });*/
                         setAsyncImageLoaderClass();
                     }
                 }
@@ -182,7 +190,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         MNSite[] siteArray = gson.fromJson(siteList, MNSite[].class);
         if(siteArray != null && siteArray.length != 0)
         {
-            m_siteList = new ArrayList<>(Arrays.asList(siteArray));
+            m_siteList = new ArrayList<MNSite>(Arrays.asList(siteArray));
         }
     }
 
@@ -212,12 +220,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         gridView.setAdapter(new MNArticleImageAdapter(this, m_htmlList.get(articleIndex).getImageList()));
 
         newsTitle.setText(m_htmlList.get(articleIndex).getMainTitle());
-        if(Build.VERSION.RELEASE.startsWith("5"))
-        {
-            announcer.speak(m_htmlList.get(articleIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, null, "announcer");
-        }else{
-            announcer.speak(m_htmlList.get(articleIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, myHash);
-        }
+        announcer.speak(m_htmlList.get(articleIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, myHash);
         articleIndex++;
     }
 

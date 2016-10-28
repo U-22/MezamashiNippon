@@ -57,8 +57,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     public int alarmMin;
     public String alarmTime;
     public int nNumber;
-    public ArrayList<String> urlList = new ArrayList<>();
-    private ArrayList<MNSite> m_siteList = new ArrayList<>();
+    public ArrayList<String> urlList = new ArrayList<String>();
+    private ArrayList<MNSite> m_siteList = new ArrayList<MNSite>();
     private Document m_settingFile;
     private AlarmManager m_alarmManager;
 
@@ -190,7 +190,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(),0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             // セットする
             m_alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            m_alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+            //m_alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+            m_alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pending);
 
 
             String time = String.format("%02d : %02d", hourOfDay, minute);
@@ -258,7 +259,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         String[] URLS = gson.fromJson(json, String[].class);
 
         if (URLS != null && URLS.length != 0){
-            urlList = new ArrayList<>(Arrays.asList(URLS));
+            urlList = new ArrayList<String>(Arrays.asList(URLS));
         }
 
         loadMNSiteList();
@@ -275,7 +276,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         MNSite[] siteArray = gson.fromJson(siteList, MNSite[].class);
         if(siteArray != null && siteArray.length != 0)
         {
-            m_siteList = new ArrayList<>(Arrays.asList(siteArray));
+            m_siteList = new ArrayList<MNSite>(Arrays.asList(siteArray));
         }
     }
 
