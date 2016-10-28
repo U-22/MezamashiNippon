@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#FF009688"
+        android:background="#0caf8e"
         android:textColor = "#ffffff"
         android:text="@string/page0_title"
         android:textSize ="@dimen/dialog_textSize"
@@ -14,7 +14,7 @@
 
     <ImageView
         android:id="@+id/page_img"
-        android:src="@drawable/scs_home"
+        android:src="@drawable/scs_home_1"
         android:layout_width ="match_parent"
         android:layout_gravity="bottom"
         android:layout_height="280dp"

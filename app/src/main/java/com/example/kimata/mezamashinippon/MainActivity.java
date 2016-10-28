@@ -23,9 +23,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageButton button_setting;
-        Button button_debug;
+        ImageButton button_debug;
         button_setting = (ImageButton) findViewById(R.id.button_setting);
-        button_debug = (Button) findViewById(R.id.button_debug);
+        button_debug = (ImageButton) findViewById(R.id.button_debug);
 
         // アプリの起動初回判定
         if (AppLaunchChecker.hasStartedFromLauncher(this)) {
@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setContentView(R.layout.pager_dialog);
         // 外部タッチで閉じない
-        d.setCanceledOnTouchOutside(true);
+        d.setCanceledOnTouchOutside(false);
 
 
         d.findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
@@ -81,6 +81,7 @@ public class MainActivity extends Activity {
         list.add(2);
         list.add(3);
         list.add(4);
+        list.add(5);
 
         //ViewPagerにPagerAdapterをセット
         DialogPagerAdapter adapter = new DialogPagerAdapter(this, list);

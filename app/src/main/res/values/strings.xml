@@ -15,27 +15,32 @@
     <string name="title_activity_test">SettingActivity</string>
     <string name="dialog_message">サイトの登録名を入力してください</string>
 
-    <string name="page0_title">このアプリについて 1／4　　</string>
-    <string name="page0_text1">　ようこそめざまし日本へ！\n\nまずは設定を行いましょう。\n\nホーム画面の下部のボタンから設定画面へ移動できます。</string>
+    <string name="page0_title">このアプリについて 1／5　　</string>
+    <string name="page0_text1">　ようこそめざまし日本へ！\n\nまずは設定を行いましょう。\n\nホーム画面の下部のボタンから\n設定画面へ移動できます。</string>
 
 
-    <string name="page1_title">このアプリについて　2／4　　</string>
-    <string name="page1_text1">この画面は設定画面です。\nアラーム,ニュースの項目を設定できます。\nそれぞれの項目を設定してください</string>
+    <string name="page1_title">このアプリについて　2／5　　</string>
+    <string name="page1_text1">この画面は設定画面です。\nアラーム,ニュースの項目を\n設定できます。\nそれぞれの項目を設定してください</string>
 
-    <string name="page2_title">このアプリについて　3／4　　</string>
+    <string name="page2_title">このアプリについて　3／5　　</string>
     <string name="page2_text1">設定した時間になるとアラームが鳴り、ニュース画面が表示されます。\n\nニュースは自動でアプリが取得し,音声で読み上げます。</string>
 
-    <string name="page3_title">このアプリについて　4／4　　</string>
-    <string name="page3_text1">以上でチュートリアルは終了です。\n\nでは早速使ってみましょう！\n\n　右上のボタンで閉じてください。</string>
+    <string name="page3_title">このアプリについて　4／5　　</string>
+    <string name="page3_text1">設定したアラーム時刻以外でも\nホーム画面の再生ボタンを押すと\nニュースの再生ができます。</string>
+
+    <string name="page4_title">このアプリについて　5／5　　</string>
+    <string name="page4_text1">以上でチュートリアルは終了です。\n\nでは早速使ってみましょう！\n\n　右上のボタンで閉じてください。</string>
 
     <string name="news_title">記事を取得中. . .</string>
 
-    <string name="debug">debug</string>
+    <string name="close">✕</string>
 
-    <string name="page_signal0">●　○　○　○</string>
-    <string name="page_signal1">○　●　○　○</string>
-    <string name="page_signal2">○　○　●　○</string>
-    <string name="page_signal3">○　○　○　●</string>
+
+    <string name="page_signal0">●　○　○　○　○</string>
+    <string name="page_signal1">○　●　○　○　○</string>
+    <string name="page_signal2">○　○　●　○　○</string>
+    <string name="page_signal3">○　○　○　●　○</string>
+    <string name="page_signal4">○　○　○　○　●</string>
 
     //ニュース数選択ダイアログ用
     <string-array name="list">

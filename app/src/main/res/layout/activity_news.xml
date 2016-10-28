@@ -1,32 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:orientation="vertical">
-
-    <TextClock
-        android:layout_width="129dp"
-        android:layout_height="wrap_content"
-        android:timeZone="GMT+900"
-        android:format24Hour="HH:mm"
-        android:textColor="#FF009688"
-        android:textStyle="normal|bold"
-        android:layout_marginStart="5dp"
-        android:gravity="center_horizontal"
-        android:textSize="@dimen/news_time" />
-    <GridView
-        android:id="@+id/articleImage"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:stretchMode="columnWidth"
-        android:layout_weight="0.49"
-        android:layout_height="340dp"
-        android:clickable="true"
-        android:fastScrollAlwaysVisible="true"
-        android:background="@drawable/border">
-    </GridView>
+    android:orientation="vertical"
+    android:background="#ffffff">
 
     <TextView
         android:id="@+id/newsTitle"
@@ -38,5 +17,35 @@
         android:textStyle="bold"
         android:textIsSelectable="false"
         android:gravity="bottom"
-        android:textSize="@dimen/news_title" />
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/news_title"
+        android:layout_marginBottom="10dp" />
+
+    <GridView
+        android:id="@+id/articleImage"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        android:clickable="true"
+        android:fastScrollAlwaysVisible="true"
+        android:background="@drawable/border"
+        android:layout_below="@+id/textClock"
+        android:textSize="30sp"
+        android:layout_height="350dp">
+    </GridView>
+
+    <TextClock
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textClock"
+        android:timeZone="GMT+900"
+        android:format24Hour="HH:mm"
+        android:textColor="#0caf8e"
+        android:textStyle="normal|bold"
+        android:textSize="@dimen/news_time"
+        android:background="#ffffff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp" />
+</RelativeLayout>

@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#FF009688"
+        android:background="#0caf8e"
         android:textColor = "#ffffff"
         android:text="@string/page2_title"
         android:textSize ="@dimen/dialog_textSize"

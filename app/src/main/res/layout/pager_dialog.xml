@@ -3,21 +3,24 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/viewPager"
-        android:tag="test"/>
-
 
     <!-- ×ボタン -->
     <Button
         android:id="@+id/close_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_dialog_close"
-        android:text="×"
-        android:textColor="#A5BCE7"/>
+        android:text="@string/close"
+        android:textSize="@dimen/dialog_textSize"
+        android:textColor="#828282"/>
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager"
+        android:tag="test"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
