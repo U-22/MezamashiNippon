@@ -83,6 +83,9 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         final String webUrl = intent1.getStringExtra("url");
         final String articleUrl = intent1.getStringExtra("samplePageURL");
         final String webStartIdentifier = intent1.getStringExtra("startArticle");
+
+        final String siteName = intent1.getStringExtra("siteName");
+
         if (webUrl != null ){
             //urlList.add(webUrl);
             //MNSiteを生成しリストに追加
@@ -96,7 +99,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                     if(result)
                     {
                         m_siteList.add(newSite);
-                        urlList.add(webUrl);
+                        urlList.add(siteName);
                         m_handler.post(new Runnable() {
                             @Override
                             public void run() {

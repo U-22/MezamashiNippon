@@ -21,12 +21,14 @@ import android.widget.EditText;
  * endArticle : 本文　末尾の文字列
  * samplePageURL : 本文と末尾を取ってきた記事のURL
  * URL : リストに表示させるサイト名
+ *
  */
 public class WebActivity extends Activity {
 
     public String startArticle = "";
     public String URL;
     public String samplePageURL;
+    public String siteName;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +89,7 @@ public class WebActivity extends Activity {
                                             // 遷移します
                                             Intent objIntent = new Intent(getApplicationContext(), SettingActivity.class);
                                             objIntent.putExtra("url", URL);
+                                            objIntent.putExtra("siteName", siteName);
                                             objIntent.putExtra("startArticle", startArticle);
                                             objIntent.putExtra("samplePageURL", samplePageURL);
                                             startActivity(objIntent);
@@ -114,13 +117,14 @@ public class WebActivity extends Activity {
         final EditText editView = new EditText(getApplicationContext());
         editView.setText(URL);
         editView.setTextColor(Color.BLACK);
-        builder.setMessage("サイトの登録名を入力してください")
+        builder.setMessage("サイトの登録名を入力してください\nこの登録名はニュース読み上げの際に読み上げられますので できるだけサイトの日本語名にすることをおすすめします。")
                 .setView(editView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // デフォルトでは入力フォームにurlが設定
-                        URL = editView.getText().toString();
-                        Log.d("debug", "リストに追加されるサイト名は:" + URL);
+                        // デフォルトでは入力フォームにURLが設定される
+                        // ユーザがつけた名前は siteNameに格納する
+
+                        siteName = editView.getText().toString();
 
                         showStartArticleDialog();
                     }
