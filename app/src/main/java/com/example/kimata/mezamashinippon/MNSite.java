@@ -119,8 +119,12 @@ public class MNSite {
     }
 
     //新しく追加された記事を追加
-    void addNewArticle(int newsLimitNumber)
+    boolean addNewArticle(int newsLimitNumber)
     {
+        if(m_rssUr.isEmpty())
+        {
+            return false;
+        }
         try {
             URL url = new URL(m_rssUr);
             URLConnection connection = url.openConnection();
@@ -175,21 +179,7 @@ public class MNSite {
         }catch (XmlPullParserException e){
             e.printStackTrace();
         }
-        /*try{
-            Document targetDoc = Jsoup.connect(m_rssUr).get();
-            Elements items = targetDoc.select("item");
-            for (Element element : items){
-                Date date = MNUtil.convertRssDate("dc|date",element.select("dc|date").text());
-                Log.d("date", date.toString());
-                if(date.after(baseDate))
-                {
-                    m_newArticleList.add(element.select("link").text());
-                }
-            }
-        }catch (IOException e)
-        {
-            e.printStackTrace();
-        }*/
+        return true;
     }
 
 

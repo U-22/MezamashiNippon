@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -61,6 +62,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     private ArrayList<MNSite> m_siteList = new ArrayList<MNSite>();
     private Document m_settingFile;
     private AlarmManager m_alarmManager;
+    private Handler m_handler;
 
 
     @Override
@@ -68,6 +70,8 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+        //handlerの初期化
+        m_handler = new Handler();
         // NullPointerException防止のためのリスト先頭要素
         urlList.add("ここに登録したサイトのURLが表示されます");
         // 前回の設定読み込み
@@ -80,7 +84,7 @@ public class SettingActivity extends Activity implements View.OnClickListener {
         final String articleUrl = intent1.getStringExtra("samplePageURL");
         final String webStartIdentifier = intent1.getStringExtra("startArticle");
         if (webUrl != null ){
-            urlList.add(webUrl);
+            //urlList.add(webUrl);
             //MNSiteを生成しリストに追加
             (new Thread(new Runnable() {
                 @Override
@@ -88,12 +92,29 @@ public class SettingActivity extends Activity implements View.OnClickListener {
                     MNSite newSite = new MNSite(webUrl);
                     newSite.setStartIdentifier(webStartIdentifier);
                     newSite.findStartClassName(articleUrl);
-                    newSite.findRssUrl();
-                    m_siteList.add(newSite);
+                    boolean result = newSite.findRssUrl();
+                    if(result)
+                    {
+                        m_siteList.add(newSite);
+                        urlList.add(webUrl);
+                        m_handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(SettingActivity.this,
+                                        "ニュースサイトを追加しました。", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }else{
+                        m_handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(SettingActivity.this,
+                                        "このサイトはRSSに対応していないため，登録できません．", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
             })).start();
-            Toast.makeText(SettingActivity.this,
-                    "ニュースサイトを追加しました。", Toast.LENGTH_SHORT).show();
         }
         // NullPointerException防止の先頭要素を削除
         urlList.removeAll(Collections.singletonList("ここに登録したサイトのURLが表示されます"));
