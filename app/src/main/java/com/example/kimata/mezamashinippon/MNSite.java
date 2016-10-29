@@ -62,6 +62,7 @@ public class MNSite {
     }
     ArrayList<MNHtml> getHtmlList(){return m_HtmlList;}
     String getStartClassName() {return m_startClassName;}
+    String getUrl() {return m_url;}
 
     //スタート指定子が含まれるhtml要素のクラス名を取得
     void findStartClassName(final String sampleUrl)

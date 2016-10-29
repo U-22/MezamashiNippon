@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -146,8 +147,18 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
                             @Override
                             public void onUtteranceCompleted(String utteranceId) {
                                 //次の記事を取得
-                                Log.d("読み上げ", "onDone: 読み上げ終了");
-                                setAsyncImageLoaderClass();
+                                boolean allArtcileFlag = isReadAllArticles();
+                                boolean allSiteFlag = isReadAllSites();
+                                if(allSiteFlag)
+                                {
+                                    return;
+                                }
+                                if(allArtcileFlag)
+                                {
+                                    setAsyncHtmloLoaderClass();
+                                }else{
+                                    setAsyncImageLoaderClass();
+                                }
                             }
                         });
                         /*result = announcer.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -172,6 +183,8 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
                     }
                 }
             });
+        }else{
+            setAsyncImageLoaderClass();
         }
         Log.d("load", "htmlLoaderFinished: ");
     }
@@ -181,13 +194,13 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
     {
         if(result != true)
         {
-            //TODO 画像が取得できなかったことを表示する
+            Toast.makeText(NewsActivity.this, "画像を取得できませんでした", Toast.LENGTH_SHORT).show();
         }
         readArticle();
-        if(isReadAllArticles() && !isReadAllSites())
+        /*if(isReadAllArticles() && !isReadAllSites())
         {
             setAsyncHtmloLoaderClass();
-        }
+        }*/
         Log.d("load", "imageLoaderFinished: ");
     }
 
@@ -229,7 +242,15 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         gridView.setAdapter(new MNArticleImageAdapter(this, m_htmlList.get(articleIndex).getImageList()));
 
         newsTitle.setText(m_htmlList.get(articleIndex).getMainTitle());
-        announcer.speak(m_htmlList.get(articleIndex).getMainContents(), TextToSpeech.QUEUE_FLUSH, myHash);
+        //読み上げる文章の生成
+        String text;
+        if(articleIndex == 0)
+        {
+            text = m_siteList.get(siteIndex).getUrl() + "の最初のニューすです\n" + newsTitle.getText() + "\n"; //+ m_htmlList.get(articleIndex).getMainContents();
+        }else {
+            text = m_siteList.get(siteIndex).getUrl() + "の次のニューすです\n" + newsTitle.getText() + "\n";// + m_htmlList.get(articleIndex).getMainContents();
+        }
+        announcer.speak(text, TextToSpeech.QUEUE_FLUSH, myHash);
         articleIndex++;
     }
 
@@ -247,6 +268,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
 
     private void setAsyncHtmloLoaderClass()
     {
+        Log.d("news", "setAsyncHtmloLoaderClass: " + siteIndex);
         if(m_asyncHtmlLoaderClass == null)
         {
             m_asyncHtmlLoaderClass = new MNAsyncHtmlLoaderClass(this, getApplicationContext(), m_siteList.get(siteIndex));
@@ -259,7 +281,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
 
     private boolean isReadAllArticles()
     {
-        if(articleIndex > articleCount)
+        if(articleIndex >= articleCount)
         {
             articleIndex = 0;
             siteIndex++;
@@ -270,7 +292,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
 
     private boolean isReadAllSites()
     {
-        if(siteIndex > m_siteList.size())
+        if(siteIndex >= m_siteList.size())
         {
             siteIndex = 0;
             return true;
