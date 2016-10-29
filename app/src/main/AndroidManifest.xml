@@ -38,7 +38,7 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <receiver android:name=".MNBroadcastReciver">
+        <receiver android:name=".MNBroadcastReciver" android:process=":remote">
             <intent-filter>
                 <action android:name="NewsAction"></action>
             </intent-filter>

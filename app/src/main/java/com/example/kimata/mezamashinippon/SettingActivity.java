@@ -205,18 +205,20 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             //calendar.add(Calendar.SECOND, 5);
-            calendar.set(Calendar.HOUR, alarmHour);
+            calendar.set(Calendar.HOUR_OF_DAY, alarmHour);
             calendar.set(Calendar.MINUTE, alarmMin);
             if(calendar.getTimeInMillis() < System.currentTimeMillis())
             {
                 calendar.add(Calendar.DAY_OF_YEAR, 1);
             }
             Intent intent = new Intent(getApplicationContext(), MNBroadcastReciver.class);
-            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(),0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(),0, intent, 0);
             // セットする
             m_alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            m_alarmManager.cancel(pending);
             //m_alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
-            m_alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pending);
+            m_alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pending);
+            //m_alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pending);
 
 
             String time = String.format("%02d : %02d", hourOfDay, minute);

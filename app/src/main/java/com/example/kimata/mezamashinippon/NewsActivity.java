@@ -355,6 +355,8 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
                     audioStop();
                     changeLyaout();
                     setAsyncHtmloLoaderClass();
+                    int maxVol = m_manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                    m_manager.setStreamVolume(AudioManager.STREAM_MUSIC, (int)(maxVol / 2), 0);
                 }
             }
         );

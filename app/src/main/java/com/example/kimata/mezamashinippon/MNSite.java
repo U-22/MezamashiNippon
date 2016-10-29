@@ -72,7 +72,15 @@ public class MNSite {
             try{
                 Document targetDoc = Jsoup.connect(sampleUrl).get();
                 Elements candinateElements = targetDoc.getElementsContainingOwnText(m_startIdentifier);
+                if(candinateElements.size() == 0)
+                {
+                    return;
+                }
                 Element startElement = candinateElements.first();
+                if(startElement == null)
+                {
+                    return;
+                }
                 m_startClassName = startElement.className();
                     //スタート指定子が含まれるhtml要素そのクラス名が無かった場合、親のクラス名を取得する
                     Element parent = startElement.parent();
