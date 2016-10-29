@@ -9,4 +9,6 @@ public final class MNStringResources {
     public static final String PACKAGE = "com.example.kimata.mezamashinippon";
     public static final int ACTIVITY_START_BY_BUTTON = 0;
     public static final int ACTIVITY_START_BY_ALARM = 1;
+    static final int NO_SITE = 1;
+    static final int NO_HTML = 2;
 }

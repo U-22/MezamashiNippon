@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,16 @@ public class MainActivity extends Activity {
         ImageButton button_debug;
         button_setting = (ImageButton) findViewById(R.id.button_setting);
         button_debug = (ImageButton) findViewById(R.id.button_debug);
+
+        //newsactivityから呼び出されたときのエラーメッセージ
+        Intent intent = getIntent();
+        int errorState = intent.getIntExtra("ERROR_STATE", 0);
+        if(errorState == MNStringResources.NO_SITE)
+        {
+            Toast.makeText(MainActivity.this, "ニュースサイトが登録されていません", Toast.LENGTH_SHORT).show();
+        }else if(errorState == MNStringResources.NO_HTML){
+            Toast.makeText(MainActivity.this, "ニュースがありませんでした", Toast.LENGTH_SHORT).show();
+        }
 
         // アプリの起動初回判定
         if (AppLaunchChecker.hasStartedFromLauncher(this)) {

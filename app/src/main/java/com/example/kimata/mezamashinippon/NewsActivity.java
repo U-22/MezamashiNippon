@@ -70,7 +70,15 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         //フラグの初期化
         endFlag = false;
         //SPからsiteリストの復元
-        loadMNSiteList();
+        int siteNumber = loadMNSiteList();
+        if(siteNumber == 0)
+        {
+            Intent intent = new Intent();
+            intent.setClassName("com.example.kimata.mezamashinippon","com.example.kimata.mezamashinippon.MainActivity");
+            intent.putExtra("ERROR_STATE", MNStringResources.NO_SITE);
+            startActivity(intent);
+            return;
+        }
         //設定データの取得
         loadSettingData();
         //ttsに渡すhashmapの初期化
@@ -122,8 +130,8 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         {
             Intent intent = new Intent();
             intent.setClassName("com.example.kimata.mezamashinippon","com.example.kimata.mezamashinippon.MainActivity");
+            intent.putExtra("ERROR_STATE", MNStringResources.NO_HTML);
             startActivity(intent);
-            //TODO 何かメッセージをだす
             return;
         }
         //announcerの初期化
@@ -183,7 +191,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         Log.d("load", "imageLoaderFinished: ");
     }
 
-    private void loadMNSiteList(){
+    private int loadMNSiteList(){
         SharedPreferences sp = getSharedPreferences(MNStringResources.SETTING_FILE_NAME, MODE_PRIVATE);
         String siteList = sp.getString("MNSiteList", "");
         Gson gson = new Gson();
@@ -192,6 +200,7 @@ public class NewsActivity extends FragmentActivity implements MNLoaderCallbacks{
         {
             m_siteList = new ArrayList<MNSite>(Arrays.asList(siteArray));
         }
+        return m_siteList.size();
     }
 
     private void loadSettingData()
