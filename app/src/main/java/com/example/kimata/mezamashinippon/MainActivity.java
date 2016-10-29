@@ -51,10 +51,15 @@ public class MainActivity extends Activity {
         button_debug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClassName("com.example.kimata.mezamashinippon", "com.example.kimata.mezamashinippon.NewsActivity");
-                intent.putExtra("STATE",MNStringResources.ACTIVITY_START_BY_BUTTON);
-                startActivity(intent);
+                boolean isOnlien = MNUtil.isDeviceOnline(MainActivity.this);
+                if(isOnlien){
+                    Intent intent = new Intent();
+                    intent.setClassName("com.example.kimata.mezamashinippon", "com.example.kimata.mezamashinippon.NewsActivity");
+                    intent.putExtra("STATE", MNStringResources.ACTIVITY_START_BY_BUTTON);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(MainActivity.this, "オフラインでは利用できません", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         button_setting.setOnClickListener(new View.OnClickListener() {

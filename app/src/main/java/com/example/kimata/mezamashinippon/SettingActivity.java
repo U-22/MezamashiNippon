@@ -181,10 +181,14 @@ public class SettingActivity extends Activity implements View.OnClickListener {
     @Override
     // webから探すボタンの処理
     public void onClick(View v) {
-        saveSettingData();
-        Intent intent = new Intent();
-        intent.setClassName("com.example.kimata.mezamashinippon", "com.example.kimata.mezamashinippon.WebActivity");
-        startActivity(intent);
+        if(MNUtil.isDeviceOnline(SettingActivity.this)) {
+            saveSettingData();
+            Intent intent = new Intent();
+            intent.setClassName("com.example.kimata.mezamashinippon", "com.example.kimata.mezamashinippon.WebActivity");
+            startActivity(intent);
+        }else{
+            Toast.makeText(SettingActivity.this,"オフラインでは利用できません", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // TimePickerDialog内のボタンリスナー

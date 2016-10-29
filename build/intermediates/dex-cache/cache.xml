@@ -21,21 +21,21 @@
     </item>
     <item
         is-multidex="true"
+        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="ee0ea5011f4d6c88ec40a4892362e079d7dc5c9c">
+        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9c2770c0c795925f51d9358ac5c272bdd1210b38/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/home/umino/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.4/695b63d702f505b9b916e02272e3b6381bade7f/gson-2.4.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
         sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
         <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.4_ed7ad932797a262642103ccaf448c4b71a32b5d5/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="2c0a24cfbda7ba8ddc9f42ac89d669ee80850377">
-        <dex dex="/home/umino/Documents/U22/MezamashiNippon/MezamashiNippon/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9c2770c0c795925f51d9358ac5c272bdd1210b38/classes.dex" />
     </item>
     <item
         is-multidex="true"

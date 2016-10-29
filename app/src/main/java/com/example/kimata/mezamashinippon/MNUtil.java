@@ -1,7 +1,10 @@
 package com.example.kimata.mezamashinippon;
 
+import android.content.Context;
 import android.content.Intent;
 import android.app.Activity;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 
@@ -79,5 +82,16 @@ public class MNUtil {
             byteArray[i] = ByteArray[i];
         }
         return byteArray;
+    }
+
+    public static boolean isDeviceOnline(Context context)
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if(networkInfo == null)
+        {
+            return false;
+        }
+        return  networkInfo.isConnected();
     }
 }
